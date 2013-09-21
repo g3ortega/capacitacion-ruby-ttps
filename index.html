@@ -3527,12 +3527,10 @@ partir de la l&#xED;nea siguiente al <code>yield</code></li>
 <h1><code>Enumerator</code> como generadores</h1>
 
 <pre class="sh_ruby"><code>fibonacci = Enumerator.new do |caller|
-    prev = current = 0
+    i1, i2 = 1, 1
     loop do
-        aux = prev + current 
-        caller.yield aux
-        prev = current
-        current = aux == 0 ? 1: aux
+        caller.yield i1
+        i1, i2 = i2, i1+i2
     end
 end
 
@@ -3567,6 +3565,853 @@ infinito</li>
 end
 
 p infinite_select(fibonacci) {|val| val % 2 == 0}.first(5)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/44">
+<h1>Haciendo algo m&#xE1;s conveniente</h1>
+
+<ul>
+<li>Podemos escribir filtros como <code>infinite_select</code> directamente en la clase
+<code>Enumerator</code></li>
+<li>Esto nos permitir&#xE1; encadenar filtros:</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>class Enumerator
+    def infinite_select(&amp;block)
+        Enumerator.new do |caller|
+            self.each do |value|
+                caller.yield(value) if block.call(value)
+            end
+        end
+    end
+end
+
+p fibonacci.
+    infinite_select {|val| val % 2 == 0}.
+    infinite_select {|val| val.to_s =~ /13\d$/ }.
+    first(2)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/45">
+<h1>Bloques como transacciones</h1>
+
+<ul>
+<li>Podemos usar bloques para definir c&#xF3;digo que debe ejecutarse bajo ciertas
+condiciones transaccionales.</li>
+<li>Por ejemplo:
+
+<ul>
+<li>Abrir un archivo</li>
+<li>Procesarlo</li>
+<li>Cerrarlo</li>
+</ul></li>
+<li>Si bien esto podemos hacerlo secuencialmente, utilizando bloques simplificamos
+mucho </li>
+</ul>
+
+<h2>Ejemplo b&#xE1;sico</h2>
+
+<pre class="sh_ruby"><code>class File
+    def self.open_and_process(*args)
+        f = File.open(*args)
+        yield f
+        f.close()
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/46">
+<h1>Analizamos un poco...</h1>
+
+<ul>
+<li>El m&#xE9;todo de clase implementado fue desarrollado para que entienda los mismos
+par&#xE1;metros que <code>File.open</code> </li>
+<li>Para ello, lo que hicimos es pasar los par&#xE1;metros tal cual se enviaron a
+<code>File.open</code>
+
+<ul>
+<li>Esto se logra definiendo como argumento al m&#xE9;todo <code>*args</code> que significa:
+<em>tomar todos los argumentos enviados al m&#xE9;todo actual y colocarlos en un
+arreglo llamado args</em></li>
+<li>Luego llamamos a <code>File.open(*args)</code>. Utilizar *args vuelve a expandir los
+elementos del arreglo a par&#xE1;metros individuales</li>
+</ul></li>
+<li>Esta t&#xE9;cnica es tan &#xFA;til, que <code>File.open</code> ya lo implementa
+
+<ul>
+<li>Adem&#xE1;s de usar <code>File.open</code> para abrir un archivo, podemos usarlo para
+directamente procesarlo como lo hac&#xED;amos con <code>open_and_process</code></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/47">
+<h1>Una versi&#xF3;n m&#xE1;s completa de <code>my_open</code></h1>
+
+<pre class="sh_ruby"><code>class File
+    def self.my_open(*args)
+        result = file = File.new(*args)
+        if block_given?
+            result = yield file
+            file.close
+        end
+        return result
+    end
+end</code></pre>
+
+<ul>
+<li>Podr&#xED;a suceder un error en el procesamiento</li>
+<li>Para asegurar el cierre del archivo, se deben usar exepciones, que veremos 
+m&#xE1;s adelante</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/48">
+<h1>Los bloques pueden ser objetos</h1>
+
+<ul>
+<li>Recordamos que anteriormente mencionamos que los bloques son como un par&#xE1;metro
+adicional pasado a un m&#xE9;todo</li>
+<li>Adem&#xE1;s podremos hacer que los bloques sean par&#xE1;metros expl&#xED;citos
+
+<ul>
+<li>Si el &#xFA;ltmo par&#xE1;metro en un m&#xE9;todo se prefija con ampersand (como 
+&amp;action), Ruby buscar&#xE1; el codigo de un bloque cuando el m&#xE9;todo es invocado</li>
+<li>Este par&#xE1;metro podr&#xE1; utilizarse como cualquier otro</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>class ProcExample
+    def pass_in_block(&amp;action)
+        @stored_proc = action
+    end
+    def use_proc(parameter)
+        @stored_proc.call(parameter)
+    end
+end
+
+eg = ProcExample.new
+eg.pass_in_block { |param| puts "The parameter is #{param}" }
+eg.use_proc(99)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/49">
+<h1>Avanzando un poco m&#xE1;s...</h1>
+
+<ul>
+<li>Vemos que <code>call</code> invoca la ejecuci&#xF3;n del bloque </li>
+<li>Muchos programas utilizan esta idea para implementar <strong>callbacks</strong></li>
+<li>&#xBF;Qu&#xE9; pasar&#xED;a si retonamos el bloque?</li>
+</ul>
+
+<h2>Lo analizamos</h2>
+
+<pre class="sh_ruby"><code>def create_block_object(&amp;block)
+    block
+end
+
+bo = create_block_object do |param| 
+    puts "You called me with #{param}"
+end
+bo.call 99
+bo.call "cat"</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/50">
+<h1><code>Proc</code> y <code>lambda</code></h1>
+
+<ul>
+<li>Devolver un bloque es tan &#xFA;til que en Ruby hay dos formas de hacerlo:
+
+<ul>
+<li><code>lamda</code> y <code>Proc.new</code> toman un bloque y retornan un objeto</li>
+<li>El objeto retornado es de la clase <code>Proc</code></li>
+<li>La diferencia entre <code>lambda</code> y <code>Proc.new</code> la veremos m&#xE1;s adelante, pero ya
+hemos mencionado que <code>lambda</code> controla los par&#xE1;metros que requiere el
+bloque, mientras que <code>Proc</code> no lo hace</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/51">
+<h1>Los bloques pueden ser Closures</h1>
+
+<ul>
+<li>Recordamos haber mencionamos que los bloques pueden utilizar variables que
+est&#xE1;n dentro del alcance del bloque</li>
+<li>Veremos ahora un uso diferente de un bloque haciendo esto</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>def n_times(thing)
+    lambda {|n| thing * n }
+end
+p1 = n_times(10)
+p1.call(3)
+p1.call(4)
+p2 = n_times("Hola ")
+p2.call(3)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/52">
+<h1>&#xBF;Qu&#xE9; es un Closure?</h1>
+
+<ul>
+<li>El m&#xE9;todo <code>n_times</code> referencia el par&#xE1;metro <code>thing</code> que es usado por el bloque</li>
+<li>Aunque en las llamadas a <code>call</code> (y por ende en la ejecuci&#xF3;n del bloque) el 
+par&#xE1;metro <code>thing</code> est&#xE1; fuera del alcance, el par&#xE1;metro se mantiene accesible
+dentro del bloque</li>
+<li>Esto es un closure:
+
+<ul>
+<li>Variables en el alcance cercano que son referenciadas por el bloque se
+mantienen accesibles por la vida del bloque y la vida del objeto Proc creado
+para este bloque</li>
+</ul></li>
+</ul>
+
+<h2>Otro ejemplo</h2>
+
+<pre class="sh_ruby"><code>def what_do_i_do?
+    value = 1
+    lambda { value += value }
+end
+
+let_me_see = what_do_i_do?
+let_me_see.call
+let_me_see.call</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/53">
+<h1>Notaci&#xF3;n alternativa</h1>
+
+<h2>A partir de ruby 1.9</h2>
+
+<pre class="sh_ruby"><code>lambda { |params| ... }
+
+# es equivalente a
+
+-&gt;params { ... }
+
+# Y con par&#xE1;metros
+
+proc1 = -&gt; arg {puts "proc1:#{arg}" }
+proc2 = -&gt; arg1, arg2 {puts "proc2:#{arg1} y #{arg2}" }
+proc3 = -&gt;(arg1, arg2) {puts "proc3:#{arg1} y #{arg2}" }
+
+proc1.call "ant"
+proc2.call "bee", "cat"
+proc3.call "dog", "elk"</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/54">
+<h1>Locas ideas</h1>
+
+<h2>Reimplementamos un while usando bloques</h2>
+
+<pre class="sh_ruby"><code>def my_while(cond, &amp;body)
+    while cond.call
+        body.call
+    end
+end
+
+a = 0
+my_while -&gt; { a &lt; 3 } do
+    puts a
+    a += 1
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/55">
+<h1>Lista de par&#xE1;metros a un bloque</h1>
+
+<ul>
+<li>Los argumentos a un bloque, al igual que los argumentos a un m&#xE9;todo podr&#xE1;n ser:
+
+<ul>
+<li>Argumentos splat, que se reemplazan por un arreglo como vimos en un ejemplo
+previo (usando *)</li>
+<li>Inicializados con un valor por defecto</li>
+<li>Bloques como par&#xE1;metro (usando &amp; en el &#xFA;ltimo par&#xE1;metro)</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>proc1 = lambda do |a, *b, &amp;block|
+    puts "a = #{a.inspect}"
+    puts "b = #{b.inspect}"
+    block.call
+end
+proc1.call(1, 2, 3, 4) { puts "in block1" }
+
+proc2 = -&gt; a, *b, &amp;block do
+    puts "a = #{a.inspect}"
+    puts "b = #{b.inspect}"
+    block.call
+end
+proc2.call(1, 2, 3, 4) { puts "in block2" }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/1">
+<h1>Herencia, m&#xF3;dulos y mixins</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Uno de los principios aceptados sobre buen dise&#xF1;o es la eliminaci&#xF3;n de
+duplicados innecesarios</li>
+<li>Trataremos de lograr que cada concepto en nuestra aplicaci&#xF3;n sea expresado s&#xF3;lo
+una vez en el c&#xF3;digo</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/3">
+<h1>Herencia</h1>
+
+<ul>
+<li>Permite crear clases que son un refinamiento o especializaci&#xF3;n de otra clase</li>
+<li>A esta clase se la llama <em>subclase</em> de la original</li>
+<li>A la clase original se la llama <em>superclase</em> de la subclase</li>
+<li>Tambi&#xE9;n se utilizan los t&#xE9;rminos: clase padre y clase hija</li>
+<li>El mecanismo de herencia es simple:
+
+<ul>
+<li>Los hijos heredan todas las capacidades de la clase padre</li>
+<li>Todos los m&#xE9;todos de instancia de la clase padre estar&#xE1;n disponibles en los
+hijos</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/4">
+<h1>Ejemplo de herencia</h1>
+
+<pre class="sh_ruby"><code>class Parent
+    def say_hello
+        puts "Hello from #{self}"
+    end
+end
+
+p = Parent.new
+p.say_hello
+
+# Subclass the parent...
+class Child &lt; Parent
+end
+
+c = Child.new
+c.say_hello</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/5">
+<h1>Conociendo la herencia</h1>
+
+<h2>El m&#xE9;todo <code>superclass</code> devuelve la clase padre</h2>
+
+<pre class="sh_ruby"><code>puts "The superclass of Child is #{Child.superclass}"
+puts "The superclass of Parent is #{Parent.superclass}"
+puts "The superclass of Object is #{Object.superclass}"</code></pre>
+
+<ul>
+<li>Si no se define superclase, Ruby asume <code>Object</code>
+
+<ul>
+<li><code>to_s</code> est&#xE1; definido aqu&#xED;</li>
+</ul></li>
+<li><code>BasicObject</code> es utilizado en metaprogramaci&#xF3;n. 
+
+<ul>
+<li>Su padre es <code>nil</code></li>
+<li>Es la ra&#xED;z: todas las clases lo tendran como ancestro </li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/6">
+<h1>Veamos un ejemplo completo</h1>
+
+<ul>
+<li><code>GServer</code> es un servidor TCP/IP gen&#xE9;rico</li>
+<li>Agregaremos funcionalidad b&#xE1;sica a nuestro servicio subclaseando GServer
+
+<ul>
+<li>El servicio mostrar&#xE1; las &#xFA;ltimas lineas del archivo de logs del sistema:
+<code>/var/log/syslog</code></li>
+</ul></li>
+<li>GServer manipula todo lo relacionado a sockets TPC. 
+
+<ul>
+<li>Nosotros s&#xF3;lo indicaremos el puerto en la inicializaci&#xF3;n</li>
+<li>Cuando un cliente se conecte, el objeto GServer invocar&#xE1; al m&#xE9;todo <code>serve</code></li>
+<li>GServer no hace nada en el m&#xE9;todo que implementa <code>serve</code></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/7">
+<h1>LogServer</h1>
+
+<pre class="sh_ruby"><code>require 'gserver'
+class LogServer &lt; GServer
+    def initialize
+        super(12345)
+    end
+    def serve(client)
+        client.puts get_end_of_log_file
+    end
+    private
+        def get_end_of_log_file
+            File.open("/var/log/syslog") do |log|
+                # back up 1000 characters from end
+                log.seek(-1000, IO::SEEK_END)
+                # ignore partial line
+                log.gets
+                # and return rest
+                log.read
+            end
+        end
+end
+
+server = LogServer.new
+server.start.join</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/8">
+<h1>&#xBF;C&#xF3;mo hemos usado la herencia?</h1>
+
+<ul>
+<li><code>LogServer</code> hereda de <code>GServer</code></li>
+<li>Esto indica que: 
+
+<ul>
+<li>LogServer es un GServer, compartiendo toda su funcionalidad</li>
+<li>LogServer es una especializaci&#xF3;n</li>
+</ul></li>
+<li>La primer especializaci&#xF3;n es con <code>initialize</code>
+
+<ul>
+<li>Se fuerza el puerto a 12345</li>
+<li>El puerto es un par&#xE1;metro del constructor de GServer</li>
+<li>Para invocar el m&#xE9;todo constructor del padre, utilizamos <code>super</code></li>
+<li>Cando se invoca <code>super</code>, Ruby env&#xED;a el m&#xE9;todo a la clase padre del objeto
+actual, indicando que invoque el mismo m&#xE9;todo que se est&#xE1; ejecutando en el
+hijo. Se enviar&#xE1;n los par&#xE1;metros que fueron pasados a <code>super</code></li>
+</ul></li>
+<li>La implementaci&#xF3;n de <code>serve</code> es algo com&#xFA;n en OO
+
+<ul>
+<li>El padre asume que ser&#xE1; subclaseado invocando un m&#xE9;todo que asume ser&#xE1;
+implementado por sus hijos</li>
+<li>Esto permite a la clase padre implementar lo m&#xE1;s pesado del procesamiento y
+delegar a los hijos mediante callbacks funcionalidad extra</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets incremental" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/9">
+<h1>&#xBF;C&#xF3;mo hemos usado la herencia?</h1>
+
+<ul>
+<li><p>Veremos m&#xE1;s adelante que esta pr&#xE1;ctica <strong><em>muy com&#xFA;n en OO</em></strong> no la convierte en <strong><em>un buen dise&#xF1;o</em></strong></p></li>
+<li><p>En su lugar veremos <strong><em>mixins</em></strong></p></li>
+<li><p>Pero para explicar mixins, antes tenemos que explicar <strong><em>m&#xF3;dulos</em></strong></p></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/10">
+<h1>Modulos</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/11">
+<h1>Modulos</h1>
+
+<ul>
+<li>Los m&#xF3;dulos son una forma de agrupar m&#xE9;todos, clases y constantes. </li>
+<li>Proveen dos beneficios:
+
+<ul>
+<li>Proveen <strong>namespaces</strong> y previenen el solapamiento de nombres</li>
+<li>Son la clave de los <strong>mixins</strong></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/12">
+<h1>Namespaces</h1>
+
+<ul>
+<li>A medida que los programas crecen, surge c&#xF3;digo reusables</li>
+<li>Es as&#xED; como aparecen las librer&#xED;as</li>
+<li>Deseamos agrupar en archivos diferentes estas rutinas de forma tal
+de poder reusarlas en programas distintos</li>
+<li>Generalmente estas rutinas pertenecer&#xE1;n a una clase, o grupos de clases
+interrelacionadas, que podr&#xED;amos disponer en un &#xFA;nico archivo
+
+<ul>
+<li>Sin embargo, a veces queremos agrupar cosas que no necesariamente forman una
+clase</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/13">
+<h1>Namespaces</h1>
+
+<ul>
+<li>Como una primer idea, podr&#xED;amos pensar en disponer todos los archivos que
+componen nuestra librer&#xED;a y luego cargar el archivo en nuestro programa cuando
+lo necesite</li>
+<li>Esta idea tiene un problema si definimos funciones con nombres que son iguales 
+a los de otra librer&#xED;a</li>
+</ul>
+
+<h2>La soluci&#xF3;n</h2>
+
+<pre class="sh_ruby"><code>module Trig
+    PI = 3.141592654
+    def Trig.sin(x)
+    # ..
+    end
+    def Trig.cos(x)
+    # ..
+    end
+end
+module Moral
+    VERY_BAD = 0
+    BAD = 1
+    def Moral.sin(badness)
+    # ...
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/14">
+<h1>&#xBF;Como se usa?</h1>
+
+<pre class="sh_ruby"><code>y = Trig.sin(Trig::PI/4)
+wrongdoing = Moral.sin(Moral::VERY_BAD)</code></pre>
+
+<ul>
+<li>As&#xED; como en los m&#xE9;todos de clase, se invocan los m&#xE9;todos de un m&#xF3;dulo
+precedi&#xE9;ndolos con el nombre del m&#xF3;dulo y un punto</li>
+<li>Las constantes se referencian con el nombre del m&#xF3;dulo y dos puntos</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/15">
+<h1>Mixins</h1>
+
+<ul>
+<li>En el ejemplo reciente, definimos m&#xE9;todos del m&#xF3;dulo que prefij&#xE1;bamos con el
+nombre del m&#xF3;dulo: <code>Trig.cos</code></li>
+<li>La primer asociaci&#xF3;n es que los m&#xE9;todos de un m&#xF3;dulo son como m&#xE9;todos de clase</li>
+<li>La siguiente pregunta ser&#xED;a: <em>Si los m&#xE9;todos del m&#xF3;dulo son como m&#xE9;todos de
+clase, qu&#xE9; ser&#xED;an los m&#xE9;todos de instancia de un m&#xF3;dulo?</em>
+
+<ul>
+<li>Un m&#xF3;dulo <strong>no puede tener instancias</strong> porque no es una clase</li>
+<li>Podremos <strong>incluir</strong> un m&#xF3;dulo a una definici&#xF3;n de clase</li>
+<li>Cuando esto sucede, los m&#xE9;todos de instancia definidos en el m&#xF3;dulo son
+incluidos como m&#xE9;todos de instancia de la clase. Se <strong>mezclan</strong> (mixed in)</li>
+<li>En efecto, los m&#xF3;dulos mixed in se comportan como superclases</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/16">
+<h1>Ejemplo</h1>
+
+<pre class="sh_ruby"><code>module Debug
+    def who_am_i?
+        "#{self.class.name}(\##{self.object_id}):#{self.to_s}"
+    end
+end
+
+class Phonograph
+    include Debug
+    def initialize(n); @n=n; end
+    def to_s; @n; end
+end
+
+class EightTrack
+    include Debug
+    def initialize(n); @n=n; end
+    def to_s; @n; end
+end
+
+ph = Phonograph.new("West End Blues")
+et = EightTrack.new("Surrealistic Pillow")
+ph.who_am_i?
+et.who_am_i?</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/17">
+<h1>El uso de <code>include</code></h1>
+
+<ul>
+<li>El <code>include</code> en Ruby agrega una referencia al m&#xF3;dulo que agregar&#xE1; nuevos
+m&#xE9;todos a nuestra clase</li>
+<li>Si varias clases incluyen el mismo m&#xF3;dulo, todas tendran referencias al mismo</li>
+<li>Si modificamos el m&#xF3;dulo durante la ejecuci&#xF3;n del programa, todas las clases
+que inclu&#xED;an el m&#xF3;dulo tomar&#xE1;n los cambios autom&#xE1;ticamente</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/18">
+<h1>El potencial</h1>
+
+<ul>
+<li>El potencial real de los mixins se obtiene cuando el c&#xF3;digo de un mixin
+interact&#xFA;a con c&#xF3;digo de una clase que lo utiliza</li>
+<li>Analizamos el caso de un mixin que es parte de la librer&#xED;a est&#xE1;ndar de Ruby,
+<code>Comparable</code> 
+
+<ul>
+<li>Agrega los operadores de comparaci&#xF3;n: <code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>&gt;=</code>, <code>&gt;</code></li>
+<li>Agrega el m&#xE9;todo <code>between?</code></li>
+<li>Asume que la clase que utilice este mixin, implementar&#xE1; el m&#xE9;todo <code>&lt;=&gt;</code></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/19">
+<h1>Lo probamos con la clase <code>Person</code></h1>
+
+<pre class="sh_ruby"><code>class Person
+    include Comparable
+    attr_reader :name
+    def initialize(name)
+        @name = name
+    end
+    def to_s
+        "#{@name}"
+    end
+    def &lt;=&gt;(other)
+        self.name &lt;=&gt; other.name
+    end
+end
+p1 = Person.new("Matz")
+p2 = Person.new("Guido")
+p3 = Person.new("Larry")
+[p1, p2, p3].sort</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/20">
+<h1>Iteradores y el m&#xF3;dulo <code>Enumerable</code></h1>
+
+<ul>
+<li>Si queremos que nuestra clase entienda los iteradores <code>each</code>, <code>include?</code>,
+<code>find_all?</code>
+
+<ul>
+<li>Incluimos el m&#xF3;dulo <code>Enumerable</code></li>
+<li>Implementamos el iterador <code>each</code></li>
+</ul></li>
+<li>Si adem&#xE1;s los elementos de nuestra colecci&#xF3;n implementan <code>&lt;=&gt;</code> entonces
+  dispondremos de: 
+
+<ul>
+<li><code>min</code></li>
+<li><code>max</code> </li>
+<li><code>sort</code> </li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/21">
+<h1>Composici&#xF3;n de m&#xF3;dulos</h1>
+
+<h2>Creamos nuestra clase Enumerable</h2>
+
+<pre class="sh_ruby"><code>class VowelFinder
+    include Enumerable
+    def initialize(string)
+        @string = string
+    end
+    def each
+        @string.scan(/[aeiou]/) do |vowel|
+            yield vowel
+        end
+    end
+end
+vf = VowelFinder.new "El murcielago tiene todas"
+vf.inject(:+)</code></pre>
+
+<h2>Lo mismo hacemos con otras colecciones</h2>
+
+<pre class="sh_ruby"><code>[ 1, 2, 3, 4, 5 ].inject(:+)
+( 'a'..'m').inject(:+)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/22">
+<h1>Creamos el m&#xF3;dulo <code>Summable</code></h1>
+
+<pre class="sh_ruby"><code>module Summable
+    def sum
+        inject(:+)
+    end
+end</code></pre>
+
+<h2>Lo aplicamos a las clases del ejemplo</h2>
+
+<pre class="sh_ruby"><code>class Array; include Summable; end
+class Range; include Summable; end
+class VowelFinder; include Summable; end
+
+[ 1, 2, 3, 4, 5 ].sum
+('a'..'m').sum
+vf.sum</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/23">
+<h1>Variables de instancia en mixins</h1>
+
+<ul>
+<li>En ruby las variables de instancia se crean cuando se nombran por
+primera vez </li>
+<li>Esto significa que un Mixin podr&#xE1; crear variables de instancia si las nombra
+por primera vez en la clase</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>module Observable
+    def observers
+        @observer_list ||= []
+    end
+    def add_observer(obj)
+        observers &lt;&lt; obj
+    end
+    def notify_observers
+        observers.each {|o| o.update }
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/24">
+<h1>Variables de instancia en mixins</h1>
+
+<ul>
+<li>Sin embargo, este uso es <strong>riesgoso</strong></li>
+<li>Los nombres de las variables pueden colisionar con otro nombre de la clase u
+otros m&#xF3;dulos.</li>
+<li>Un programa que caiga en este escenario dar&#xE1; resultados err&#xF3;neos y
+dif&#xED;ciles de rasterar</li>
+</ul>
+
+<h2>Soluci&#xF3;n</h2>
+
+<ul>
+<li>La mayor&#xED;a de las veces, los modulos Mixins no usan variables de instancia,
+sino accessors</li>
+<li>En caso de necesitarlo, utilizar nombres que se prefijen con el nombre del
+m&#xF3;dulo por ejemplo</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/25">
+<h1>Resoluci&#xF3;n de nombres ambiguos de m&#xE9;todos</h1>
+
+<ul>
+<li><em>&#xBF;C&#xF3;mo se resuelve el nombre de un m&#xE9;todo que es el mismo en la clase, que 
+es implementado en la superclase y adem&#xE1;s definido en uno o varios m&#xF3;dulos 
+incluidos?</em>
+
+<ul>
+<li>Primero se busca si la clase del objeto lo implementa</li>
+<li>Luego en los mixins incluidos por la clase. <em>Si tiene varios m&#xF3;dulos, el
+&#xFA;ltimo ser&#xE1; el considerado</em></li>
+<li>Luego en la superclase</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/26">
+<h1>Caso 1</h1>
+
+<pre class="sh_ruby"><code>module MyModule
+    def test
+        "Module"
+    end
+end
+
+class Parent
+    def test
+        "Parent"
+    end
+end
+
+class Child &lt; Parent
+    include MyModule
+    def test
+        "Child"
+    end
+end
+
+t = Child.new
+p t.test</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/27">
+<h1>Caso 2</h1>
+
+<pre class="sh_ruby"><code>module MyModule
+    def test
+        "Module"
+    end
+end
+
+class Parent
+    def test
+        "Parent"
+    end
+end
+
+class Child &lt; Parent
+    include MyModule
+end
+
+t = Child.new
+p t.test</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/28">
+<h1>Caso 3</h1>
+
+<pre class="sh_ruby"><code>module MyModule
+    def test1
+        "Module"
+    end
+end
+
+class Parent
+    def test
+        "Parent"
+    end
+end
+
+class Child &lt; Parent
+    include MyModule
+end
+
+t = Child.new
+p t.test</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/29">
+<h1>Herencia, Mixins y Dise&#xF1;o</h1>
+
+<ul>
+<li>Herencia y Mixins ambos permiten escribir c&#xF3;digo en un &#xFA;nico lugar</li>
+<li><em>&#xBF;Cu&#xE1;ndo usar cada uno?</em>
+
+<ul>
+<li>El uso de herencia debe aplicarse cuando se cumple la propiedade <strong>es un</strong></li>
+<li>La herencia puede asociarse con la creaci&#xF3;n de clases, que ser&#xED;a como 
+agregar nuevos tipos al lenguaje</li>
+<li>Al usar herencia <strong>deber&#xED;amos en todo momento poder reemplazar por un objeto
+de la subclase</strong> donde se usaba un objeto de la superclase. <em>Los hijos deben
+hacer honor a los contratos asumidos por el padre</em></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/30">
+<h1>Herencia, Mixins y Dise&#xF1;o</h1>
+
+<ul>
+<li>La realidad dice que el uso de herencia no siempre se usa para representar la
+relaci&#xF3;n <em>es un</em>
+
+<ul>
+<li>En realidad muchas veces se utiliza <strong>mal</strong> en situaciones que representan 
+una relaci&#xF3;n de <em>posee un</em> o <em>utiliza un</em></li>
+<li>El mundo se crea a partir de <strong>composiciones</strong> m&#xE1;s que de restricciones de
+herencia estrictas</li>
+</ul></li>
+<li>Dado que la herencia era el &#xFA;nico mecanismo disponible para compartir c&#xF3;digo,
+nos volvimos <strong>vagos</strong> y empezamos a afirmar cosas como: <em>Que una Persona</em> <strong><em>es un</em></strong> <em>DatabaseWrapper</em>
+
+<ul>
+<li>Pero una persona no es un DatbaseWrapper</li>
+<li>Una Persona <strong>usa</strong> un DatabaseWrapper para proveer persistencia</li>
+</ul></li>
+<li>La herencia adem&#xE1;s representa un gran acomplamiento entre dos componentes.
+Cambiar la herencia ser&#xED;a algo complejo en cualquier programa mediano</li>
+<li><strong>Debemos utilizar composici&#xF3;n cada vez que encontramos una relaci&#xF3;n:</strong> A
+<em>usa</em> B o A <em>tiene un</em> B
+
+<ul>
+<li>Nuestra persona no ser&#xED;a un DatabseWrapper, incluir&#xED;a la funcionalidad para
+persistir y recuperar una persona</li>
+</ul></li>
+</ul>
 </div>
 </div></div>
 <div id="pauseScreen">
