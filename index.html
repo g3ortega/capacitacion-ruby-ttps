@@ -2616,14 +2616,14 @@ alterar el estado de un objeto)</li>
 
 <ul>
 <li><strong>P&#xFA;blicos:</strong> los m&#xE9;todos p&#xFA;blicos pueden invocarse por cualquiera (no hay
-control de acceso. Los m&#xE9;todos son p&#xFA;vlicos por defecto excepto initialize que
+control de acceso). Los m&#xE9;todos son p&#xFA;blicos por defecto excepto initialize que
 siempre es privado.</li>
 <li><strong>Protegidos:</strong> pueden invocarse s&#xF3;lo por objetos de la clase que lo define y 
-sus subclases. El acceso queda en la familia</li>
+sus subclases. El acceso queda en la familia.</li>
 <li><strong>Privados:</strong> estos m&#xE9;todos no pueden ser invocados con un receptor expl&#xED;cito: 
 <em>el receptor es siempre el objeto actual, mejor conocido como <code>self</code></em>. Esto
 significa que tampoco puede invocar el m&#xE9;todo privado de otra instancia de la
-misma clase</li>
+misma clase.</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="05-clases-objetos-variables/01_objetos-y-atributos/24">
@@ -2852,8 +2852,721 @@ a[1, 1] = [ 9, 8, 7 ]
 a[0..3] = []
 a[5..6] = 99, 98</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/8">
-<h1>Arrays usados como pilas y colas</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/8">
+<h1>Arrays usados como pilas</h1>
+
+<ul>
+<li>Podomos invocar los siguientes m&#xE9;todos de <code>Array</code>
+
+<ul>
+<li><code>push</code></li>
+<li><code>pop</code></li>
+</ul></li>
+</ul>
+
+<h2>La Pila</h2>
+
+<pre class="sh_ruby"><code>stack = []
+stack.push "red"
+stack.push "green"
+stack.push "blue"
+p stack
+puts stack.pop
+puts stack.pop
+puts stack.pop
+p stack</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/9">
+<h1>Arrays usados como colas</h1>
+
+<ul>
+<li>Podomos invocar los siguientes m&#xE9;todos de <code>Array</code>
+
+<ul>
+<li><code>unshift</code></li>
+<li><code>shift</code></li>
+</ul></li>
+</ul>
+
+<h2>La Cola</h2>
+
+<pre class="sh_ruby"><code>queue = []
+queue.push "red"
+queue.push "green"
+puts queue.shift
+puts queue.shift</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/10">
+<h1>El principio y el final</h1>
+
+<pre class="sh_ruby"><code>array = [ 1, 2, 3, 4, 5, 6, 7 ]
+p array.first(4)
+p array.last(4)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/11">
+<h1>Hashes</h1>
+
+<ul>
+<li>Los arreglos se indexan con enteros, los hashes con objetos
+
+<ul>
+<li>S&#xED;mbolos, strings, expresiones regulares, etc</li>
+</ul></li>
+<li>Cuando se almacena un valor en un hash, deben proveerse dos objetos:
+
+<ul>
+<li>El &#xED;ndice, generalmente llamado <em>key</em></li>
+<li>La entrada a almacenar en dicho &#xED;ndice, generalmente llamdo <em>valor</em></li>
+</ul></li>
+<li>El acceso a los valores referenciados por un hash se realiza por medio de los
+<em>keys</em></li>
+</ul>
+
+<h2>Un ejemplo</h2>
+
+<pre class="sh_ruby"><code>h = { 'dog' =&gt; 'canine', 'cat' =&gt; 'feline' }
+h.length # =&gt; 3
+h['dog'] # =&gt; "canine"
+h['cow'] = 'bovine'
+h[12] = 'dodecine'
+h['cat'] = 99</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/12">
+<h1>Acceso a los hashes</h1>
+
+<ul>
+<li>En el ejemplo anterior se utilizan strings como claves</li>
+</ul>
+
+<h2>Ejemplo con s&#xED;mbolos</h2>
+
+<pre class="sh_ruby"><code># En ruby &gt;= 1.9
+h = { dog: 'canine', cat: 'feline' }
+
+# En ruby &lt; 1.9
+h = { :dog =&gt; 'canine', :cat =&gt; 'feline' }</code></pre>
+
+<ul>
+<li>Comparado a los arreglos, los hashes tienen una ventaja: se indexan con
+objetos</li>
+<li>A partir de la versi&#xF3;n 1.9 adem&#xE1;s se recuerda el &#xF3;rden en que fueron
+insertados los elementos
+
+<ul>
+<li>Cuando se itera sobre las entradas de un hash se respeta el orden de
+inserci&#xF3;n</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/13">
+<h1>Un ejemplo usando Array y Hash</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/14">
+<h1>Frecuencia de palabras</h1>
+
+<p><em>Calcular el n&#xFA;mero de veces que aparece una palabra en un texto</em></p>
+
+<ul>
+<li>El problema se divide en dos partes:
+
+<ul>
+<li>Separar el texto en palabras: <em>suena como un array</em></li>
+<li>Luego contar cada palabra diferente: <em>suena como hash</em></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/15">
+<h1>La soluci&#xF3;n</h1>
+
+<h2>El m&#xE9;todo que obtiene las palabras</h2>
+
+<pre class="sh_ruby"><code>def words_from_string(string)
+    string.downcase.scan(/[\w']+/)
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/16">
+<h1>La soluci&#xF3;n</h1>
+
+<h2>El m&#xE9;todo que cuenta las palabras</h2>
+
+<ul>
+<li>Usaremos un hash, indexado por las palabras a contar</li>
+<li>El valor ser&#xE1; la cantidad de ocurrencias 
+
+<ul>
+<li>Tendremos que incializar la primer ocurrencia en el valor 1 para luego sumar</li>
+</ul></li>
+</ul>
+
+<h2>La primer idea...</h2>
+
+<p><em>Asumimos que counts es un <code>Hash</code></em></p>
+
+<pre class="sh_ruby"><code>if counts.has_key?(next_word)
+    counts[next_word] += 1
+else
+    counts[next_word] = 1
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/17">
+<h1>La soluci&#xF3;n</h1>
+
+<ul>
+<li>Podemos ordenar un poco la idea anterior
+
+<ul>
+<li><code>Hash.new</code> puede recibir como par&#xE1;metro el valor usado para incializar cada
+valor del Hash. <em>(por ejemplo cuando se accede a un valor que no existe a&#xFA;n en
+el Hash)</em></li>
+</ul></li>
+</ul>
+
+<h2>La misma idea m&#xE1;s ordenada</h2>
+
+<pre class="sh_ruby"><code>def count_frequency(word_list)
+    counts = Hash.new(0)
+    for word in word_list
+        counts[word] += 1
+    end
+    counts
+end</code></pre>
+
+<p>Ver el ejemplo completo en la carpeta <code>samples/05/words_frequency</code></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/18">
+<h1>Testeando nuestra soluci&#xF3;n</h1>
+
+<ul>
+<li>Aplicar un test r&#xE1;pido es una buena pr&#xE1;ctica.</li>
+<li>Si bien lo veremos m&#xE1;s adelante, vamos introduciendo el concepto</li>
+<li>Utilizaremos un framework de test llamado <code>Test::Unit</code> que ya incluye ruby como
+parte de la librer&#xED;a est&#xE1;ndar</li>
+<li>S&#xF3;lo explicaremos el m&#xE9;todo <code>assert_equal</code> que chequea si los dos par&#xE1;metros 
+que se le env&#xED;an son iguales, indicando <strong>fuertemente</strong> si as&#xED; no
+sucede</li>
+<li>Utilizaremos <strong>afirmaciones</strong> <em>(en ingl&#xE9;s assertions)</em> para testear los dos
+m&#xE9;todos implementados, uno por vez
+
+<ul>
+<li>He aqu&#xED; la raz&#xF3;n por la que se escribieron como m&#xE9;todos separados</li>
+<li>Tener m&#xE9;todos diferentes permite testearlos en forma aislada</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/19">
+<h1>Testeamos <code>words_from_string</code></h1>
+
+<pre class="sh_ruby"><code>require_relative 'words_from_string.rb'
+require 'test/unit'
+
+class TestWordsFromString &lt; Test::Unit::TestCase
+    def test_empty_string
+        assert_equal([], words_from_string(""))
+        assert_equal([], words_from_string(" "))
+    end
+    def test_single_word
+        assert_equal(["cat"], words_from_string("cat"))
+        assert_equal(["cat"], words_from_string(" cat "))
+    end
+    def test_many_words
+        assert_equal(["the", "cat", "sat", "on","the","mat"],
+                words_from_string("the cat sat on the mat"))
+    end
+    def test_ignores_punctuation
+        assert_equal(["the", "cat's", "mat"],
+                words_from_string("&lt;the!&gt; cat's, -mat...-"))
+    end
+end</code></pre>
+
+<p>En esta clase, los m&#xE9;todos que comienzan con <strong>test</strong> ser&#xE1;n corridos
+por el framework de testing</p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/20">
+<h1>Testeamos <code>count_frequency</code></h1>
+
+<pre class="sh_ruby"><code>require_relative 'count_frequency.rb'
+require 'test/unit'
+
+class TestCountFrequency &lt; Test::Unit::TestCase
+    def test_empty_list
+        assert_equal({}, count_frequency([]))
+    end
+    def test_single_word
+        assert_equal({"cat" =&gt; 1}, count_frequency(["cat"]))
+    end
+    def test_two_different_words
+        assert_equal({"cat" =&gt; 1, "sat" =&gt; 1},
+                    count_frequency(["cat", "sat"]))
+    end
+    def test_two_words_with_adjacent_repeat
+        assert_equal({"cat" =&gt; 2, "sat" =&gt; 1},
+                    count_frequency(["cat", "cat", "sat"]))
+    end
+    def test_two_words_with_non_adjacent_repeat
+        assert_equal({"cat" =&gt; 2, "sat" =&gt; 1},
+                    count_frequency(["cat", "sat", "cat"]))
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/21">
+<h1>Bloques e iteradores</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/22">
+<h1>Introducci&#xF3;n</h1>
+
+<h2>En <code>samples/05/words_frequency/top_five</code> usamos:</h2>
+
+<pre class="sh_ruby"><code>for i in 0...5
+    word = top_five[i][0]
+    count = top_five[i][1]
+    puts "#{word}: #{count}"
+end</code></pre>
+
+<p>En cualquier lenguaje esto es natural</p>
+
+<h2>Mucho m&#xE1;s intuitivo es:</h2>
+
+<pre class="sh_ruby"><code>top_five.each do |word, count|
+    puts "#{word}: #{count}"
+end
+
+# o m&#xE1;s simple:
+top_five.each { |word, count| "#{word}: #{count}" }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/23">
+<h1>Bloques</h1>
+
+<ul>
+<li>Un bloque es c&#xF3;digo encerrado entre llaves o las palabras claves <code>do</code> y <code>end</code></li>
+<li>Ambas formas son id&#xE9;nticas, salvo por la precedencia 
+
+<ul>
+<li>Cuando el c&#xF3;digo del bloque entra en una l&#xED;nea usar {}</li>
+<li>Cuando tiene m&#xE1;s de una l&#xED;nea usar <code>do</code> / <code>end</code></li>
+</ul></li>
+<li>Los bloques pueden verse como m&#xE9;todos an&#xF3;nimos</li>
+<li>Pueden recibir par&#xE1;metros, que se explicitan entre barras verticales <code>|</code></li>
+<li>El c&#xF3;digo de un bloque no se ejecuta cuando se define, sino que se almacenar&#xE1;
+para ser ejecutado m&#xE1;s adelante</li>
+<li>En ruby, los bloques s&#xF3;lo podr&#xE1;n usarse despu&#xE9;s de la <em>invocaci&#xF3;n</em> de alg&#xFA;n
+m&#xE9;todo
+
+<ul>
+<li>Si el m&#xE9;todo recibe par&#xE1;metros, entonces aparecer&#xE1; luego de ellos</li>
+<li>Podr&#xED;a verse incluso como un par&#xE1;metro extra que es pasado al m&#xE9;todo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/24">
+<h1>Ejemplo</h1>
+
+<h2>Suma de los cuadrados de los n&#xFA;meros en un arreglo</h2>
+
+<pre class="sh_ruby"><code>sum = 0
+[1, 2, 3, 4].each do |value|
+    square = value * value
+    sum += square
+end
+puts sum</code></pre>
+
+<ul>
+<li>El bloque se invoca para cada elemento en el arreglo</li>
+<li>El elemento del arreglo es pasado al bloque en la variable <code>value</code></li>
+<li>La variable <code>sum</code> declarada fuera del bloque es actualizada dentro del bloque
+
+<ul>
+<li><strong>Regla importante:</strong> <em>si existe una variable en el bloque con el mismo
+nombre que una variable dentro del alcance fuera del bloque, ambas ser&#xE1;n la
+misma. En el ejemplo hay s&#xF3;lo una variable <code>sum</code></em></li>
+<li>Veremos que el comportamiento mencionado podremos cambiarlo</li>
+<li>Si una variable aparece s&#xF3;lo en el bloque, entonces ser&#xE1; local al mismo (como
+<code>square</code>)</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/25">
+<h1>Los casos no esperados</h1>
+
+<pre class="sh_ruby"><code># assume Shape defined elsewhere
+square = Shape.new(sides: 4) 
+#
+# .. lots of code
+#
+sum = 0
+[1, 2, 3, 4].each do |value|
+    square = value * value
+    sum += square
+end
+
+puts sum
+square.draw # BOOM!</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/26">
+<h1>Mas casos</h1>
+
+<h2>No sucede lo mismo con los argumentos al bloque</h2>
+
+<pre class="sh_ruby"><code>value = "some shape"
+[ 1, 2 ].each {|value| puts value }
+puts value</code></pre>
+
+<h2>Podemos solucionar el problema de <code>square</code></h2>
+
+<pre class="sh_ruby"><code>square = "some shape"
+sum = 0
+[1, 2, 3, 4].each do |value; square|
+    square = value * value # different variable
+    sum += square
+end
+puts sum
+puts square</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/27">
+<h1>La magia de los bloques</h1>
+
+<ul>
+<li>Mencionamos que los bloques se utilizan de forma adyacente a la llamada a un
+m&#xE9;todo y que no se ejecutan en el momento en que aparecen en el c&#xF3;digo</li>
+<li>Para lograr este comportamiento, dentro de un m&#xE9;todo cualquiera, podremos
+invocar un bloque
+
+<ul>
+<li>Los bloques se invocar&#xE1;n como si fueran m&#xE9;todos</li>
+<li>Para invocar un bloque se utiliza la sentencia <code>yield</code></li>
+<li>Al invocar <code>yield</code> ruby invocar&#xE1; al c&#xF3;digo del bloque </li>
+<li>Cuando el bloque finaliza, ruby devuelve el c&#xF3;digo inmediatamente al
+finalizar el llamado a <code>yield</code></li>
+</ul></li>
+</ul>
+
+<h2>Un ejemplo</h2>
+
+<pre class="sh_ruby"><code>def three_times
+    yield
+    yield
+    yield
+end
+three_times { puts "Hola" }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/28">
+<h1>Par&#xE1;metros a un bloque</h1>
+
+<ul>
+<li>Cuando utilizamos yield podemos enviarle un par&#xE1;metro
+
+<ul>
+<li>El par&#xE1;metro enviado se mapea con el definido en el bloque entre las barras
+verticales</li>
+</ul></li>
+<li>Un bloque puede retornar un valor y ser usado en el m&#xE9;todo</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/29">
+<h1>Ejemplo de env&#xED;o de par&#xE1;metros</h1>
+
+<pre class="sh_ruby"><code>def fib_up_to(max)
+    i1, i2 = 1, 1
+    while i1 &lt;= max
+        yield i1
+        i1, i2 = i2, i1+i2
+    end
+end
+
+fib_up_to(1000) {|f| print f, " " }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/30">
+<h1>Ejemplo de uso del valor retornado</h1>
+
+<pre class="sh_ruby"><code>class Array
+    def my_find
+        for i in 0...size
+            value = self[i]
+            return value if yield(value)
+        end
+        return nil
+    end
+end
+
+(1..200).to_a.my_find {|x| x%5 == 0}
+(1..200).to_a.my_find {|x| x == 0}</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/31">
+<h1>Los iteradores</h1>
+
+<ul>
+<li>Las clases que implementan colecciones, como <code>Array</code> <em>hacen lo que hacen
+mejor:</em>
+
+<ul>
+<li>Acceder a los elementos que contienen</li>
+</ul></li>
+<li>El comportamiento de qu&#xE9; hacer con cada elemento lo delegan a la aplicaci&#xF3;n
+
+<ul>
+<li>Permitiendo que nos concentremos s&#xF3;lo en un requerimiento particular</li>
+<li>En los casos anteriores (<code>find</code>), ser&#xED;a encontrar un elemento para el cual
+el criterio sea verdadero</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/32">
+<h1>Los iteradores <code>each</code> y <code>collect</code></h1>
+
+<ul>
+<li>El iterador <code>each</code> es el m&#xE1;s simple 
+
+<ul>
+<li>Solo invoca <code>yield</code> para cada elemento</li>
+</ul></li>
+<li>El iterador <code>collect</code> tambi&#xE9;n conocido como <code>map</code> 
+
+<ul>
+<li>Invoca <code>yield</code> para cada elemento. El resultado lo guarda en un nuevo 
+arreglo que es <strong>retornado</strong></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code>[ 1, 3, 5, 7, 9 ].each {|i| puts i }
+
+["H", "A", "L"].collect {|x| x.succ }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/33">
+<h1>Otros usos de iteradores</h1>
+
+<ul>
+<li>Los iteradores no solo se usan con array y hash</li>
+<li>Su l&#xF3;gica es muy utilizada en las clases de entrada / salida
+
+<ul>
+<li>Estas clases implementan una interfaz de iteradir que retorna l&#xED;neas
+sucesivas o bytes si rabajamos en bajo nivel</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>f = File.open("testfile")
+f.each { |line| puts "The line is: #{line}"}
+f.close</code></pre>
+
+<h2>Y si necesitamos el &#xED;ndice</h2>
+
+<pre class="sh_ruby"><code>f = File.open("testfile")
+f.each_with_index do |line, index| 
+    puts "Line #{index} is: #{line}" 
+end
+f.close</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/34">
+<h1>El caso de <code>inject</code></h1>
+
+<ul>
+<li>Este iterador tiene un nombre <em>raro</em></li>
+<li>Permite acumular un valor a lo largo de los miembros de una colecci&#xF3;n</li>
+<li>Recibe un par&#xE1;metro que es el valor inicial para comenzar a acumular
+
+<ul>
+<li>Si no se especifica <strong>toma el primer elemento de la colecci&#xF3;n</strong></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code>[1,3,5,7].inject(0) {|sum, element| sum+element}
+[1,3,5,7].inject {|sum, element| sum+element}
+
+[1,3,5,7].inject(1) {|prod, element| prod*element}
+[1,3,5,7].inject {|prod, element| prod*element}</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/35">
+<h1>El caso de <code>inject</code></h1>
+
+<h2>Generando m&#xE1;s m&#xED;stica para <code>inject</code></h2>
+
+<pre class="sh_ruby"><code>
+[1,3,5,7].inject(:+)
+
+
+[1,3,5,7].inject 100, :+ 
+
+
+[1,3,5,7].inject(:*)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/36">
+<h1>Enumerators</h1>
+
+<ul>
+<li>Los iteradores son muy c&#xF3;modos pero:
+
+<ul>
+<li>Son parte de la colecci&#xF3;n y no una clase a parte</li>
+<li>En otros lenguajes (como Java), las colecciones no implementan sus
+iteradores, sino que son clases separadas (como por ejemplo la interfaz 
+Iterator de Java)</li>
+<li>Es complicado iterar dos colecciones simult&#xE1;neamente</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/37">
+<h1>Enumerators</h1>
+
+<ul>
+<li>La soluci&#xF3;n: clase <code>Enumerator</code>
+
+<ul>
+<li>Se obtiene de una colecci&#xF3;n con el m&#xE9;todo <code>to_enum</code> o <code>enum_for</code></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>a = [ 1, 3, "cat" ]
+h = { dog: "canine", fox: "lupine" }
+# Create Enumerators
+enum_a = a.to_enum
+enum_h = h.to_enum
+enum_a.next     # =&gt; 1
+enum_h.next     # =&gt; [ :dog, "canine" ]
+enum_a.next     # =&gt; 3
+enum_h.next     # =&gt; [ :fox, "lupine" ]</code></pre>
+
+<p><em>Si un iterador se utiliza sin bloque, entonces retorna un iterador</em></p>
+
+<pre class="sh_ruby"><code>a = [1,2,3].each
+a.next</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/38">
+<h1>El m&#xE9;todo <code>loop</code></h1>
+
+<ul>
+<li>Ejecuta el c&#xF3;digo que se encuentra dentro del bloque</li>
+<li>Se puede salir con break cuando se cumple una condici&#xF3;n</li>
+<li>Si hay iteradores, <code>loop</code> terminar&#xE1; cuando el Enumerator se quede sin valores</li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code>loop { puts "Hola" }
+
+i=0
+loop do
+    puts i += 1
+    break if i &gt;= 10
+end
+
+short_enum = [1, 2, 3].to_enum
+long_enum = ('a'..'z').to_enum
+loop { puts "#{short_enum.next} - #{long_enum.next}" }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/39">
+<h1>Usando <code>Enumerator</code> como objetos</h1>
+
+<ul>
+<li> Sabemos que es posible usar <code>each_with_index</code> en <code>Array</code></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>result = []
+[ 'a', 'b', 'c' ].each_with_index do |item, index| 
+    result &lt;&lt; [item, index] 
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/40">
+<h1>Usando <code>Enumerator</code> como objetos</h1>
+
+<h2>&#xBF;Y si queremos hacer lo mismo con un <code>String</code>?</h2>
+
+<ul>
+<li>No existe <code>each_with_index</code> en <code>String</code></li>
+<li>Pero s&#xED; existe <code>each_char</code> que es como <code>each</code> de <code>Array</code> pero sobre cada
+caracter del string
+
+<ul>
+<li>Si no enviamos un bloque, retornar&#xE1; un <code>Enumerator</code></li>
+</ul></li>
+<li>La interfaz <code>Enumerable</code> define el m&#xE9;todo <code>each_with_index</code></li>
+</ul>
+
+<h2>El c&#xF3;digo quedar&#xED;a</h2>
+
+<pre class="sh_ruby"><code>result = []
+"cat".each_char.each_with_index do |item, index| 
+        result &lt;&lt; [item, index] 
+end
+# Incluso Matz nos simplifico mas...
+result = []
+"cat".each_char.with_index do |item, index| 
+        result &lt;&lt; [item, index] 
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/41">
+<h1><code>Enumerator</code> como generadores</h1>
+
+<ul>
+<li>Podemos crear objetos enumerator expl&#xED;citamente en vez de hacerlo a partir de
+una colecci&#xF3;n</li>
+<li>Para ello es necesario utilizar un bloque en la creaci&#xF3;n
+
+<ul>
+<li>El c&#xF3;digo del bloque se usar&#xE1; por el objeto Enumerator cada vez que el
+programa principal le solicite un nuevo valor</li>
+<li>Este bloque no se ejecutar&#xE1; como otros bloques dado que su ejecuci&#xF3;n
+se disparar&#xE1; cada vez que se solicita el siguiente valor</li>
+<li>La ejecuci&#xF3;n del bloque se pausa y vuelve al programa principal cuando se
+encuentra <code>yield</code></li>
+<li>Cuando se solicita el siguiente valor, el c&#xF3;digo del bloque contin&#xFA;a a
+partir de la l&#xED;nea siguiente al <code>yield</code></li>
+</ul></li>
+<li>Esto permite generar <strong>secuencias infinitas</strong> </li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/42">
+<h1><code>Enumerator</code> como generadores</h1>
+
+<pre class="sh_ruby"><code>fibonacci = Enumerator.new do |caller|
+    prev = current = 0
+    loop do
+        aux = prev + current 
+        caller.yield aux
+        prev = current
+        current = aux == 0 ? 1: aux
+    end
+end
+
+6.times { puts fibonacci.next }</code></pre>
+
+<h2>Como <code>Enumerator</code> es <code>Enumerable</code></h2>
+
+<pre class="sh_ruby"><code>fibonacci.first(1000).last</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/43">
+<h1>Hay que tener cuidado!!</h1>
+
+<ul>
+<li>Cuidado con los enumerators que generan listas infinitas</li>
+<li>Los metodos comunes de los enumeradores como <code>count</code> y <code>select</code> tratar&#xE1;n de
+leer todos los elementos antes de retornar un valor
+
+<ul>
+<li>Podemos escribir la versi&#xF3;n de <code>select</code> adecuada a nuestra lista
+infinito</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>def infinite_select(enum, &amp;block)
+    Enumerator.new do |caller|
+        enum.each do |value|
+            caller.yield(value) if block.call(value)
+        end
+    end
+end
+
+p infinite_select(fibonacci) {|val| val % 2 == 0}.first(5)</code></pre>
 </div>
 </div></div>
 <div id="pauseScreen">
