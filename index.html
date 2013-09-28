@@ -3659,7 +3659,7 @@ end</code></pre>
 
 <ul>
 <li>Podr&#xED;a suceder un error en el procesamiento</li>
-<li>Para asegurar el cierre del archivo, se deben usar exepciones, que veremos 
+<li>Para asegurar el cierre del archivo, se deben usar excepciones, que veremos 
 m&#xE1;s adelante</li>
 </ul>
 </div>
@@ -4204,7 +4204,7 @@ p3 = Person.new("Larry")
         @string = string
     end
     def each
-        @string.scan(/[aeiou]/) do |vowel|
+        @string.scan(/[aeiou]/i) do |vowel|
             yield vowel
         end
     end
