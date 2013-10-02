@@ -2240,8 +2240,8 @@ another_book = BookInStock.new</code></pre>
 <li><p>En el ejemplo anterior: </p>
 
 <ul>
-<li>Se crean dos objetos  diferentes de la clase <code>BookInStock</code>. </li>
-<li>Podr&#xED;amos decir en esta primer instancia que son el mimo libro, o iguales porque nada los
+<li>Se crean dos objetos diferentes de la clase <code>BookInStock</code>. </li>
+<li>Podr&#xED;amos decir en esta primer instancia que son el mismo libro, o iguales porque nada los
 distingue...</li>
 </ul></li>
 <li><p>Lo solucionamos obligando que la inicializaci&#xF3;n indique aquellos datos que distinga al
@@ -2259,7 +2259,7 @@ libro</p></li>
 end</code></pre>
 
 <ul>
-<li>El m&#xE9;todo <code>initialize</code> es especiale en Ruby </li>
+<li>El m&#xE9;todo <code>initialize</code> es especial en Ruby </li>
 <li>Cuando se invoca el m&#xE9;todo <code>new</code>, Ruby aloca memoria para alojar un objeto no
 inicializado y luego invoca al m&#xE9;todo <code>initialize</code> <strong>pas&#xE1;ndole cada par&#xE1;metro
 que fue enviado a <code>new</code></strong></li>
@@ -2337,7 +2337,7 @@ mantienen el estado del objeto, el mismo se vuelve in&#xFA;til.</li>
 para <code>isbn</code> y <code>price</code> as&#xED; podemos contabilizarlos</li>
 </ul>
 
-<h2>Deifinici&#xF3;n de los atributos:</h2>
+<h2>Definici&#xF3;n de los atributos:</h2>
 
 <pre class="sh_ruby"><code>class BookInStock
     def isbn
@@ -2800,7 +2800,7 @@ a[3..3]
 a[-3..-1]</code></pre>
 
 <ul>
-<li>El rango indica los &#xED;nidces <strong>desde</strong> y <strong>hasta</strong></li>
+<li>El rango indica los &#xED;ndices <strong>desde</strong> y <strong>hasta</strong></li>
 <li>Usando <code>..</code> se incluye el fin de rango</li>
 <li>Usando <code>...</code> se <strong>excluye</strong> el extremo final</li>
 </ul>
@@ -2880,7 +2880,7 @@ p stack</code></pre>
 <h1>Arrays usados como colas</h1>
 
 <ul>
-<li>Podomos invocar los siguientes m&#xE9;todos de <code>Array</code>
+<li>Podemos invocar los siguientes m&#xE9;todos de <code>Array</code>
 
 <ul>
 <li><code>unshift</code></li>
@@ -2916,7 +2916,7 @@ p array.last(4)</code></pre>
 
 <ul>
 <li>El &#xED;ndice, generalmente llamado <em>key</em></li>
-<li>La entrada a almacenar en dicho &#xED;ndice, generalmente llamdo <em>valor</em></li>
+<li>La entrada a almacenar en dicho &#xED;ndice, generalmente llamado <em>valor</em></li>
 </ul></li>
 <li>El acceso a los valores referenciados por un hash se realiza por medio de los
 <em>keys</em></li>
@@ -3340,8 +3340,8 @@ arreglo que es <strong>retornado</strong></li>
 <li>Su l&#xF3;gica es muy utilizada en las clases de entrada / salida
 
 <ul>
-<li>Estas clases implementan una interfaz de iteradir que retorna l&#xED;neas
-sucesivas o bytes si rabajamos en bajo nivel</li>
+<li>Estas clases implementan una interfaz de iterador que retorna l&#xED;neas
+sucesivas o bytes si trabajamos en bajo nivel</li>
 </ul></li>
 </ul>
 
@@ -3672,7 +3672,7 @@ adicional pasado a un m&#xE9;todo</li>
 <li>Adem&#xE1;s podremos hacer que los bloques sean par&#xE1;metros expl&#xED;citos
 
 <ul>
-<li>Si el &#xFA;ltmo par&#xE1;metro en un m&#xE9;todo se prefija con ampersand (como 
+<li>Si el &#xFA;ltimo par&#xE1;metro en un m&#xE9;todo se prefija con ampersand (como 
 &amp;action), Ruby buscar&#xE1; el codigo de un bloque cuando el m&#xE9;todo es invocado</li>
 <li>Este par&#xE1;metro podr&#xE1; utilizarse como cualquier otro</li>
 </ul></li>
@@ -3699,7 +3699,7 @@ eg.use_proc(99)</code></pre>
 <ul>
 <li>Vemos que <code>call</code> invoca la ejecuci&#xF3;n del bloque </li>
 <li>Muchos programas utilizan esta idea para implementar <strong>callbacks</strong></li>
-<li>&#xBF;Qu&#xE9; pasar&#xED;a si retonamos el bloque?</li>
+<li>&#xBF;Qu&#xE9; pasar&#xED;a si retornamos el bloque?</li>
 </ul>
 
 <h2>Lo analizamos</h2>
@@ -3928,7 +3928,7 @@ puts "The superclass of Object is #{Object.superclass}"</code></pre>
 <li>El servicio mostrar&#xE1; las &#xFA;ltimas lineas del archivo de logs del sistema:
 <code>/var/log/syslog</code></li>
 </ul></li>
-<li>GServer manipula todo lo relacionado a sockets TPC. 
+<li>GServer manipula todo lo relacionado a sockets TCP. 
 
 <ul>
 <li>Nosotros s&#xF3;lo indicaremos el puerto en la inicializaci&#xF3;n</li>
@@ -4399,7 +4399,7 @@ herencia estrictas</li>
 nos volvimos <strong>vagos</strong> y empezamos a afirmar cosas como: <em>Que una Persona</em> <strong><em>es un</em></strong> <em>DatabaseWrapper</em>
 
 <ul>
-<li>Pero una persona no es un DatbaseWrapper</li>
+<li>Pero una persona no es un DatabaseWrapper</li>
 <li>Una Persona <strong>usa</strong> un DatabaseWrapper para proveer persistencia</li>
 </ul></li>
 <li>La herencia adem&#xE1;s representa un gran acomplamiento entre dos componentes.
@@ -4411,6 +4411,890 @@ Cambiar la herencia ser&#xED;a algo complejo en cualquier programa mediano</li>
 <li>Nuestra persona no ser&#xED;a un DatabseWrapper, incluir&#xED;a la funcionalidad para
 persistir y recuperar una persona</li>
 </ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="06-tipos-estandar/01_tipos-estandar/1">
+<h1>Tipos est&#xE1;ndar</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="06-tipos-estandar/01_tipos-estandar/2">
+<h1>N&#xFA;meros</h1>
+
+<ul>
+<li>Los n&#xFA;meros que soporta Ruby son: 
+
+<ul>
+<li>Enteros</li>
+<li>Punto flotante</li>
+<li>Racionales</li>
+<li>Complejos</li>
+</ul></li>
+<li>Los enteros se manejan internamente por Ruby como binarios.
+
+<ul>
+<li>Se representan con Fixnum en el rango de (-2^30..2^30-1 o -2^62..2^62-1)</li>
+<li>Fuera del rango anterior, Ruby utiliza Bignum</li>
+<li>El proceso es transparente </li>
+</ul></li>
+<li>Es importante considerar que los strings no se convierten autom&#xE1;ticamente a
+enteros: <code>'1' + '2' =&gt; '12'</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="06-tipos-estandar/01_tipos-estandar/3">
+<h1>&#xBF;C&#xF3;mo interact&#xFA;an?</h1>
+
+<pre class="sh_ruby"><code>1 + 2               # =&gt; 3
+1 + 2.0             # =&gt; 3.0
+1.0 + 2             # =&gt; 3.0
+1.0 + Complex(1,2)  # =&gt; (2.0,2i)
+1 + Rational(2,3)   # =&gt; (5/3)
+1.0 + Rational(2,3) # =&gt; 1.66666666666665
+
+# Y cuando se divide:
+
+1.0/2               # =&gt; 0.5
+1/2.0               # =&gt; 0.5
+1/2                 # =&gt; 0</code></pre>
+
+<p>Probar la divisi&#xF3;n requiriendo <code>mathn</code></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="06-tipos-estandar/01_tipos-estandar/4">
+<h1>Strings y el encoding</h1>
+
+<ul>
+<li>A partir de ruby 1.9, cada string tiene asociada una codificaci&#xF3;n</li>
+<li>Por defecto, la codificaci&#xF3;n asociada a un literal string depender&#xE1; de la 
+codificaci&#xF3;n del archivo fuente donde se especific&#xF3;
+
+<ul>
+<li>Sin especificar la codificaci&#xF3;n de un fuente ruby, se asume: <code>US-ASCII</code> en
+1.9 y <code>UTF-8</code> a partir de ruby 2</li>
+<li>Cambiamos la codificaci&#xF3;n de un fuente agregando en la primer l&#xED;nea un
+comentario <code>#encoding: xxxx</code> donde xxx corresponde a la codificaci&#xF3;n</li>
+</ul></li>
+</ul>
+
+<h2>Un ejemplo</h2>
+
+<pre class="sh_ruby"><code>#encoding: iso-8859-1
+txt = "dog"
+puts "Encoding of #{txt.inspect} is #{txt.encoding}"</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="06-tipos-estandar/01_tipos-estandar/5">
+<h1>Usando rangos como condiciones</h1>
+
+<ul>
+<li>Generalmente usamos rangos como secuencias y dependiendo del tipo del rango
+pod&#xED;amos pedir: <code>min</code>, <code>max</code>, <code>include</code>, etc</li>
+<li>Ahora veremos una forma de utilizar los rangos como condiciones, de forma tal
+que el objeto rango mantendr&#xE1; el estado de las comparaciones que macheen desde
+un valor (el inicial del rango) hasta el final (del rango)</li>
+</ul>
+
+<h2>Dos ejemplos</h2>
+
+<pre class="sh_ruby"><code>100.times {|x| p x if x==50 .. x==55 }
+
+while line = gets
+    puts line if line =~ /start/ .. line =~ /end/
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="06-tipos-estandar/01_tipos-estandar/6">
+<h1>Usando rangos como intervalos</h1>
+
+<pre class="sh_ruby"><code>car_age = gets.to_f # let's assume it's 5.2
+case car_age
+    when 0...1
+        puts "Mmm.. new car smell"
+    when 1...3
+        puts "Nice and new"
+    when 3...6
+        puts "Reliable but slightly dinged"
+    when 6...10
+        puts "Can be a struggle"
+    when 10...30
+        puts "Clunker"
+    else
+        puts "Vintage gem"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="06-tipos-estandar/01_tipos-estandar/7">
+<h1>Busncado el problema...</h1>
+
+<pre class="sh_ruby"><code>car_age = gets.to_f # let's assume it's 5.2
+case car_age
+    when 0..0
+        puts "Mmm.. new car smell"
+    when 1..2
+        puts "Nice and new"
+    when 3..5
+        puts "Reliable but slightly dinged"
+    when 6..9
+        puts "Can be a struggle"
+    when 10..29
+        puts "Clunker"
+    else
+        puts "Vintage gem"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="07-metodos/01_metodos/1">
+<h1>Un poco m&#xE1;s sobre m&#xE9;todos</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="07-metodos/01_metodos/2">
+<h1>Definiendo un m&#xE9;todo</h1>
+
+<ul>
+<li>Los nombres de los m&#xE9;todos deben empezar con min&#xFA;scula o underescore
+
+<ul>
+<li><em>No es error que el nombre comience con may&#xFA;sucla, el problema es que en la
+invocaci&#xF3;n, Ruby tratar&#xE1; de interpretarlo como una constante, y por tanto
+parsear la llamada en forma incorrecta. Por convenci&#xF3;n, los m&#xE9;todos que
+comienzan con may&#xFA;sucla se utilizan para conversiones de tipos</em></li>
+</ul></li>
+<li>Cuando retornamos un boolean, es prolijo que el m&#xE9;todo termine con <code>?</code></li>
+<li>Aquellos m&#xE9;todos <em>peligrosos</em> deben terminar con <code>!</code></li>
+<li>Los m&#xE9;todos que aparecen a la izquierda de una asignaci&#xF3;n terminan con <code>=</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="07-metodos/01_metodos/3">
+<h1>Argumentos</h1>
+
+<ul>
+<li>Los par&#xE1;mtros a un m&#xE9;todo se escriben como una lista de variables entre
+par&#xE9;ntesis
+
+<ul>
+<li><em>Los par&#xE9;ntesis pueden omitirse; por convensi&#xF3;n se usar&#xE1;n par&#xE9;ntesis cuando
+el m&#xE9;todo tenga argumentos, y omitirlos cuando no</em></li>
+</ul></li>
+<li>Es posible definir valores por defecto para los argumentos
+
+<ul>
+<li><em>Incluso usando como valor un par&#xE1;metro anterior</em></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code>def concat(a="a", b="b")
+    "#{a},#{b}"
+end
+
+def surround(word, pad_width=word.length/2)
+"[" * pad_width + word + "]" * pad_width
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="07-metodos/01_metodos/4">
+<h1>Argumentos variables</h1>
+
+<ul>
+<li>Usando un <code>*</code> antes del nombre del argumento, luego de los par&#xE1;metros normales logramos este efecto
+
+<ul>
+<li>A partir de Ruby 1.9, es posible definir el argumento variable en cualquier
+posici&#xF3;n. Lo importante es no tener m&#xE1;s de uno</li>
+</ul></li>
+<li>A esta t&#xE9;cnica se la suele llamar: <em>splatting an argument</em> </li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>def varargs(arg1, *rest)
+    "arg1=#{arg1}. rest=#{rest.inspect}"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="07-metodos/01_metodos/5">
+<h1>Usos de splat</h1>
+
+<ul>
+<li>Es com&#xFA;n que se utilice splat en una subclase para pasar los par&#xE1;metros a la
+superclase usando <code>super</code>
+
+<ul>
+<li>Si no se especifican par&#xE1;metros a <code>super</code>, entonces se invoca el m&#xE9;todo del
+padre con todos los argumentos que se hayan recibido</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>class Child &lt; Parent
+    def do_something(*not_used)
+        # our processing
+        super
+    end
+end</code></pre>
+
+<h2>O en forma similar</h2>
+
+<pre class="sh_ruby"><code>class Child &lt; Parent
+    def do_something(*)
+        # our processing
+        super
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="07-metodos/01_metodos/6">
+<h1>Retornando valores</h1>
+
+<ul>
+<li>Los m&#xE9;todos siempre retornan un valor aunque el mismo no sea utilizado</li>
+<li>Podemos usar <code>return</code> para forzar la salida
+
+<ul>
+<li>Si se env&#xED;an varios par&#xE1;metros a <code>return</code> se retorna un arreglo</li>
+<li>El caso anterior se puede usar en asignaciones en paralelo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="07-metodos/01_metodos/7">
+<h1>Expandiendo collecciones en llamadas a m&#xE9;todos</h1>
+
+<ul>
+<li>Es la idea inversa a la explicaci&#xF3;n de splat previa</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>def five(a, b, c, d, e)
+    "I was passed #{a} #{b} #{c} #{d} #{e}"
+end
+
+five(1, 2, 3, 4, 5 )
+five(1, 2, 3, *['a', 'b'])
+five(*['a', 'b'], 1, 2, 3)
+five(*(10..14))
+five(*[1,2], 3, *(4..5))</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="07-metodos/01_metodos/8">
+<h1>Haciendo m&#xE1;s din&#xE1;micos los bloques</h1>
+
+<ul>
+<li>Al igual que en el caso anterior de splat, podemos necesitar especificar que
+uno de los par&#xE1;metros a un m&#xE9;todo es un bloque</li>
+</ul>
+
+<h2>En vez de</h2>
+
+<pre class="sh_ruby"><code>(1..10).collect { |x| x*2}.join(',')</code></pre>
+
+<h2>Podemos usar</h2>
+
+<pre class="sh_ruby"><code>b = -&gt; x { x*2}
+(1..10).collect(&amp;b).join ','</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/9">
+<h1>Argumentos como Hash</h1>
+
+<ul>
+<li>Hasta Ruby 1.9 no exist&#xED;a la posibilidad de usar <em>keyword arguments</em> 
+
+<ul>
+<li>En vez de especificar los par&#xE1;metros en el orden en que se definieron, es posible
+especificar qu&#xE9; valor tomar&#xE1; cada par&#xE1;metro indicando el hecho con el nombre
+del argumento y su valor</li>
+</ul></li>
+<li>Hasta que Ruby 1.9 se utilizaba Hash en su reemplazo para obtener el mismo
+resultado</li>
+</ul>
+
+<h2>Ejemplo con Hash</h2>
+
+<pre class="sh_ruby"><code>class SongList
+    def search(name, params)
+    # ...
+    end
+end
+list.search(:titles,
+            { :genre              =&gt; "jazz",
+              :duration_less_than =&gt; 270
+            })</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="07-metodos/01_metodos/10">
+<h1>Argumentos como Hash</h1>
+
+<ul>
+<li>En el ejemplo anterior el primer par&#xE1;metro indica qu&#xE9; atributo retornar
+mientras que el segundo es un hash con el criterio de b&#xFA;squeda</li>
+<li>Lo inc&#xF3;modo del ejemplo es la necesidad de usar <code>{}</code>, adem&#xE1;s de la posible
+confusi&#xF3;n con la posibilidad de que se est&#xE9; indicando un bloque</li>
+<li>Ruby ofrece una soluci&#xF3;n: puede usarse <code>clave =&gt; valor</code> en la lista de
+argumentos siempre que:
+
+<ul>
+<li>Sea luego de los argumentos <em>normales</em></li>
+<li>Antes de un splat y bloque</li>
+<li>Ya no es necesario usar llaves</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code># Ruby &lt;= 1.9
+list.search(:titles,
+            :genre              =&gt; 'jazz',
+            :duration_less_than =&gt; 270)
+
+# Ruby &gt;= 1.9
+list.search(:titles, genre: 'jazz', duration_less_than: 270)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small" ref="07-metodos/01_metodos/11">
+<h1>Keyword aruments: solo Ruby 2.0</h1>
+
+<h2>Asumimos un supuesto m&#xE9;todo <code>log</code></h2>
+
+<pre class="sh_ruby"><code>def log(msg, level: "ERROR", time: Time.now)
+    puts "#{ time.ctime } [#{ level }] #{ msg }"
+end</code></pre>
+
+<h2>En Ruby 1.9 ten&#xED;amos que:</h2>
+
+<pre class="sh_ruby"><code>def log(msg, opt = {})
+    level = opt[:level] || "ERROR"
+    time  = opt[:time]  || Time.now
+    puts "#{ time.ctime } [#{ level }] #{ msg }"
+end
+log("Hello!", level: "INFO")</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/12">
+<h1>Keyword aruments: solo Ruby 2.0</h1>
+
+<ul>
+<li>Las cosas parecen simples, pero todo se complica un poco si sucede:
+
+<ul>
+<li>Queremos usar keyword arguments con splat</li>
+<li>Lanzar excepciones cuando un argumento no es conocido</li>
+</ul></li>
+</ul>
+
+<h2>Caer&#xED;amos en:</h2>
+
+<pre class="sh_ruby"><code>def log(*msgs)
+    opt = msgs.last.is_a?(Hash) ? msgs.pop : {}
+    level = opt.key?(:level) ? opt.delete(:level) : "ERROR"
+    time  = opt.key?(:time ) ? opt.delete(:time ) : Time.now
+    raise "unknown keyword: #{ opt.keys.first }" if !opt.empty?
+    msgs.each {|msg| puts "#{ time.ctime } [#{ level }] #{ msg }" }
+end</code></pre>
+
+<p><em>Pero nos gust&#xF3; preservar la primer versi&#xF3;n del ejemplo</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/13">
+<h1>Keyword aruments: solo Ruby 2.0</h1>
+
+<h2>Probamos los argumentos</h2>
+
+<pre class="sh_ruby"><code>log("Hello")
+log("Hello!", level: "ERROR", time: Time.now)</code></pre>
+
+<h2>Y si cambiamos el orden</h2>
+
+<pre class="sh_ruby"><code>log("Hello!", time: Time.now, level: "ERROR") 
+log(level: "ERROR", time: Time.now, "Hello!")</code></pre>
+
+<h2>Cuando enviamos un argumento no conocido</h2>
+
+<pre class="sh_ruby"><code>log("Hello!", date: Time.new) </code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/14">
+<h1>Keyword aruments: solo Ruby 2.0</h1>
+
+<ul>
+<li>Si queremos evitar las excepciones 
+
+<ul>
+<li>Podemos usar <code>**</code> para expl&#xED;citamente agrupar el resto de los keyword
+arguments en un hash (como splat)</li>
+</ul></li>
+</ul>
+
+<h2>Veamos como quedar&#xED;a</h2>
+
+<pre class="sh_ruby"><code>def log(msg, level: "ERROR", time: Time.now, **kwrest)
+  puts "#{ time.ctime } [#{ level }] #{ msg }"
+end
+
+log("Hello!", date: Time.now) </code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/15">
+<h1>Keyword aruments: solo Ruby 2.0</h1>
+
+<h2>Todos los casos</h2>
+
+<pre class="sh_ruby"><code>def f(a, b, c, m = 1, n = 1, *rest, x, y, z, k: 1, 
+      **kwrest, &amp;blk)
+    puts "a: %p" % a
+    puts "b: %p" % b
+    puts "c: %p" % c
+    puts "m: %p" % m
+    puts "n: %p" % n
+    puts "rest: [%p]" % rest.join(',')
+    puts "x: %p" % x
+    puts "y: %p" % y
+    puts "z: %p" % z
+    puts "k: %p" % k
+    puts "kwrest: %p" % kwrest
+    puts "blk: %p" % blk
+end
+
+f("a", "b", "c", 2, 3, "foo", "bar", "baz", "x", 
+  "y", "z", k: 42, u: "unknown") { }</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="08-expresiones/01_expresiones/1">
+<h1>Expresiones</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/2">
+<h1>Operadores</h1>
+
+<ul>
+<li>Ya hemos usado los operadores +, -, *, /, etc</li>
+<li>Estos operadores se implementan como llamadas a m&#xE9;todos</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>a, b, c = 1, 2, 3
+a * b + c
+# O en forma similar
+(a.*(b)).+(c)</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/3">
+<h1>Operadores</h1>
+
+<h2>Podemos redefinirlos incluso</h2>
+
+<pre class="sh_ruby"><code>class Fixnum
+    alias old_plus +
+    def +(other)
+        old_plus(other).succ
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/4">
+<h1>Operadores</h1>
+
+<h2>Otro ejemplo con <code>&lt;&lt;</code></h2>
+
+<pre class="sh_ruby"><code>class ScoreKeeper
+    def initialize
+        @total_score = 0
+        @count = 0
+    end
+
+    def &lt;&lt;(score)
+        @total_score += score
+        @count += 1
+        self
+    end
+
+    def average
+        fail "No scores" if @count == 0
+        Float(@total_score) / @count
+    end
+end
+
+scores = ScoreKeeper.new
+scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40
+puts "Average = #{scores.average}"</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/5">
+<h1>Operadores</h1>
+
+<h2>Incluso con <code>[]</code></h2>
+
+<pre class="sh_ruby"><code>class SomeClass
+    def []=(*params)
+        value = params.pop
+        puts "Indexed with #{params.join(', ')}"
+        puts "value = #{value.inspect}"
+    end
+end
+
+s = SomeClass.new
+s[1] = 2
+s['cat', 'dog'] = 'enemies'</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="08-expresiones/01_expresiones/6">
+<h1>Expresiones de comando</h1>
+
+<ul>
+<li>Podemos usar comillas <code>o</code>%x` para indicar la ejecuci&#xF3;n de un comando en el
+sistema operativo subyacente</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>date`
+ls`.split[34]
+%x{echo "Hello there"}
+`ip add ls`.
+    split("\n").
+    select {|x| x =~ / inet / }.
+    map do |x|
+        x.scan(/((\d{1,3}\.?){4}\/(\d){1,2})/).flatten.shift 
+    end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="08-expresiones/01_expresiones/7">
+<h1>Expresiones de asignacion</h1>
+
+<h2>Jugando con splat y asignaci&#xF3;n en paralelo</h2>
+
+<pre class="sh_ruby"><code>a, b, c, d, e = *(1..2), 3, *[4, 5] # a=1, b=2, c=3, d=4, e=5
+
+a1, *b1 = 1, 2, 3                   # a1=1, b1=[2, 3]
+
+a2, *b2 = 1                         # a2=1, b2=[]
+
+*a3, b3 = 1, 2, 3, 4                # a3=[1, 2, 3], b3=4
+
+c, *d, e = 1, 2, 3, 4               # c=1, d=[2,3], e=4
+
+f, *g, h, i, j = 1, 2, 3, 4         # f=1, g=[], h=2, i=3, j=4</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/8">
+<h1>And</h1>
+
+<ul>
+<li>El operador <code>&amp;&amp;</code> y el m&#xE9;todo <code>and</code> funcionan similar 
+
+<ul>
+<li>Retornan el primer valor si es falso, sino el segundo. Ambos son iguales 
+salvo por la precedencia: <code>and</code> es de menor precedencia que <code>&amp;&amp;</code></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>nil &amp;&amp; 99    # =&gt; nil
+false &amp;&amp; 99  # =&gt; false
+"cat" &amp;&amp; 99  # =&gt; 99</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/9">
+<h1>Or</h1>
+
+<ul>
+<li>El operador <code>|| y el m&#xE9;todo</code>or` funcionan similar 
+
+<ul>
+<li>Retornan el primer valor si es verdadero, sino el segundo. Ambos son iguales 
+salvo por la precedencia <code>or</code> es de menor precedencia que <code>||</code></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>nil || 99    # =&gt; 99
+false || 99  # =&gt; 99
+"cat" || 99  # =&gt; "cat"</code></pre>
+
+<ul>
+<li>Es muy com&#xFA;n utilizar la expresi&#xF3;n: <code>||=</code> para setear un valor si no fue
+seteado: <code>var ||= "default value"</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/10">
+<h1>Break, Redo y Next</h1>
+
+<ul>
+<li>Podemos alterar el flujo de ejecuci&#xF3;n de loops 
+
+<ul>
+<li><code>break</code>: termina en forma inmediata al loop en que encuentra m&#xE1;s pr&#xF3;ximo. El
+control se devuelve a la sentencia siguiente al final del bloque</li>
+<li><code>redo</code>: repite la iteraci&#xF3;n actual sin evaluar la condici&#xF3;n ni trayendo el
+siguiente elemento si fuese un iterador</li>
+<li><code>next</code>: avanza hasta el final del bloque continuando con la siguiente
+iteraci&#xF3;n</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="09-excepciones/01_excepciones/1">
+<h1>Excepciones, catch y throw</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="09-excepciones/01_excepciones/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Las excepciones permiten empaquetar en un objeto informaci&#xF3;n sobre un error </li>
+<li>El objeto <code>Exception</code> se propagar&#xE1; hacia arriba en la pila de ejecuci&#xF3;n hasta
+que el sistema detecte c&#xF3;digo que sepa manejar dicha excepci&#xF3;n</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="09-excepciones/01_excepciones/3">
+<h1>La clase <code>Exception</code></h1>
+
+<ul>
+<li>Ruby define una jerarqu&#xED;a de excepciones que son subclase de <code>Exception</code> </li>
+<li>Esta jerarqu&#xED;a simplifica el manejo de excepciones
+
+<ul>
+<li>Al lanzar una excepci&#xF3;n, es posible hacerlo con cualquiera de las subclases de
+<code>Exception</code> o con una clase propia que sea subclase de <code>StandardError</code> o alguna
+de sus hijas. </li>
+</ul></li>
+<li>Toda excepci&#xF3;n tiene asociado un mensaje y una traza de ejecuci&#xF3;n
+
+<ul>
+<li>Si definimos excepciones propias, podemos agregar informaci&#xF3;n espec&#xED;fica</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="09-excepciones/01_excepciones/4">
+<h1>Manejo de excepciones</h1>
+
+<h2>Analizamos el siguiente c&#xF3;digo</h2>
+
+<pre class="sh_ruby"><code>require 'open-uri'
+
+web_page = open("http://pragprog.com/podcasts")
+output = File.open("podcasts.html", "w")
+while line = web_page.gets
+    output.puts line
+end
+output.close</code></pre>
+
+<ul>
+<li>&#xBF;Qu&#xE9; sucede si ocurre un error en la mitad de la transferencia?
+
+<ul>
+<li>No queremos guardar una p&#xE1;gina por la mitad en el archivo de salida</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="09-excepciones/01_excepciones/5">
+<h1>Manejo de excepciones</h1>
+
+<h2>Agregamos el manejador de excepci&#xF3;n</h2>
+
+<pre class="sh_ruby"><code>require 'open-uri'
+
+page = "podcasts"
+file_name = "#{page}.html"
+web_page = open("http://pragprog.com/#{page}")
+output = File.open(file_name, "w")
+begin
+    while line = web_page.gets
+        output.puts line
+    end
+    output.close
+rescue Exception
+    STDERR.puts "Failed to download #{page}: #{$!}"
+    output.close
+    File.delete(file_name)
+    raise
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="09-excepciones/01_excepciones/6">
+<h1>Manejo de excepciones</h1>
+
+<ul>
+<li>Cuando sucede una excepci&#xF3;n se ubica una referencia al objeto con la excepci&#xF3;n
+asociada en la variable global <code>$!</code></li>
+<li>Luego de cerrar y eliminar el archivo, se invoca a <code>raise</code> sin par&#xE1;metros, que
+relanza la excepci&#xF3;n en <code>$!</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="09-excepciones/01_excepciones/7">
+<h1>Jerarqu&#xED;a de <code>Exception</code></h1>
+
+<pre><code>Exception
+    StandardError
+        ArgumentError
+        FiberError (1.9)
+        IndexError
+            KeyError (1.9)
+            StopIteration (1.9)
+        IOError
+            EOFError
+        LocalJumpError
+        NameError
+            NoMethodError
+        RangeError
+            FloatDomainError
+        RegexpError
+        RuntimeError
+        SystemCallError
+            system-dependent exceptions (Errno::xxx)
+        ThreadError
+        TypeError
+        ZeroDivisionError</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="09-excepciones/01_excepciones/8">
+<h1>Jerarqu&#xED;a de <code>Exception</code></h1>
+
+<pre><code>Exception
+    fatal
+    NoMemoryError
+    ScriptError
+        LoadError
+        NotImplementedError
+        SyntaxError
+    SecurityError 
+    SignalException
+        Interrupt
+    SystemExit
+    SystemStackError</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="09-excepciones/01_excepciones/9">
+<h1>M&#xFA;ltiples <code>rescue</code></h1>
+
+<ul>
+<li>Es posible utilizar varios <code>rescue</code> para un bloque <code>begin</code></li>
+<li>Cada <code>rescue</code> puede incluso indicar varias excepciones a catchear</li>
+<li>Al final de cada <code>rescue</code>, podemos indicar el nombre de la variable que
+usaremos para mapear la exepci&#xF3;n (en vez de usar <code>$!</code>)</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>begin
+    eval string
+rescue SyntaxError, NameError =&gt; boom
+    print "String doesn't compile: " + boom
+rescue StandardError =&gt; bang
+    print "Error running script: " + bang
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="09-excepciones/01_excepciones/10">
+<h1>C&#xF3;mo funciona <code>rescue</code></h1>
+
+<ul>
+<li>La decisi&#xF3;n de qu&#xE9; <code>rescue</code> utilizar, es similar al caso de un <code>case</code></li>
+<li>Para cada <code>rescue</code> compara la excepci&#xF3;n lanzada con cada uno de los par&#xE1;metros
+nombrados
+
+<ul>
+<li>La comparaci&#xF3;n es: <code>par&#xE1;metro == $!</code></li>
+<li>Esto significar&#xED;a que si el tipo de la excepci&#xF3;n lanzada coincide con el del
+par&#xE1;metro</li>
+</ul></li>
+<li>Si se omiten par&#xE1;metros, se compara con <code>StandardError</code></li>
+<li>Si no machea con ning&#xFA;n par&#xE1;metro, sale del bloque <code>begin/end</code> buscando en el
+m&#xE9;todo que invoc&#xF3; un manejador para la misma, y as&#xED; siguiendo hacia arriba en
+la pila</li>
+<li>Casi siempre usaremos nombre de clases como par&#xE1;metros a <code>rescue</code>, pero
+podemos usar expresiones que retornen una subclase de <code>Exception</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="09-excepciones/01_excepciones/11">
+<h1>Asegurando la ejecuci&#xF3;n</h1>
+
+<ul>
+<li>Varias veces necesitamos ejecutar determinado c&#xF3;digo al finalizar un m&#xE9;todo de
+forma segura, es decir independientemente de si se produce un error en la
+mitad
+
+<ul>
+<li>Por ejemplo, tenemos un archivo abierto, que necesitamos sea cerrado antes
+de finalizar el bloque</li>
+</ul></li>
+<li>La cl&#xE1;usula <code>ensure</code> cumple esta funci&#xF3;n</li>
+<li>El c&#xF3;digo bajo <code>ensure</code> se ejecutar&#xE1; siempre, haya sido una ejecuci&#xF3;n exitosa
+o con alg&#xFA;n problema</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="09-excepciones/01_excepciones/12">
+<h1>Un ejemplo <code>ensure</code></h1>
+
+<pre class="sh_ruby"><code>f = File.open("testfile")
+begin
+    # .. process
+rescue
+    # .. handle error
+ensure
+    f.close
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="09-excepciones/01_excepciones/13">
+<h1>El <code>else</code> de <code>rescue</code></h1>
+
+<ul>
+<li>El <code>else</code> aplica cuando ninguno de los <code>rescue</code> manejan la excepci&#xF3;n</li>
+<li>Tener cuidado porque <code>ensure</code> ejecutar&#xE1; siempre, incluso cuando no se produce
+un error</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>f = File.open("testfile")
+begin
+    # .. process
+rescue
+    # .. handle error
+else
+    puts "Congratulations-- no errors!"
+ensure
+    f.close
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="09-excepciones/01_excepciones/14">
+<h1>Volver a empezar...</h1>
+
+<ul>
+<li>A veces podemos corregir una causa de excepci&#xF3;n</li>
+<li>Para estos casos, podemos usar <code>retry</code> para volver a ejecutar el bloque
+<code>begin/end</code></li>
+<li>Es muy factible caer en loops infinitos </li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="09-excepciones/01_excepciones/15">
+<h1>Ejemplo <code>retry</code></h1>
+
+<pre class="sh_ruby"><code>@esmtp = true
+begin
+# First try an extended login. If it fails 
+# because the server doesn't support it, 
+# fall back to a normal login
+if @esmtp then
+    @command.ehlo(helodom)
+else
+    @command.helo(helodom)
+end
+rescue ProtocolError
+    if @esmtp then
+        @esmtp = false
+        retry
+    else
+        raise
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small smbullets" ref="09-excepciones/01_excepciones/16">
+<h1>Lanzando excepciones</h1>
+
+<ul>
+<li>Podemos lanzar excepciones usando el m&#xE9;todo <code>Kernel.raise</code></li>
+</ul>
+
+<h2>Ejemplos de uso</h2>
+
+<pre class="sh_ruby"><code>raise
+raise "bad mp3 encoding"
+raise InterfaceException, "Keyboard failure", caller</code></pre>
+
+<ul>
+<li>La primer forma relanza una excepci&#xF3;n si la hubiere, o <code>RuntimeError</code> si no.
+Generalmente se utiliza dentro de un manejador de excepci&#xF3;n</li>
+<li>El segundo ejemplo, lanza <code>RuntimeError</code> con el mensaje indicado</li>
+<li>El tercer ejemplo, utiliza el primer par&#xE1;metro para crear un excepci&#xF3;n con el
+segundo par&#xE1;metro usado como mensaje y la pila de ejecuci&#xF3;n en el tercer
+par&#xE1;metro (<code>Kernel.caller</code> normalmente se utiliza para generar la traza de
+ejecuci&#xF3;n)</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="09-excepciones/01_excepciones/17">
+<h1>Ejemplo de <code>raise</code></h1>
+
+<pre class="sh_ruby"><code>raise
+raise "Missing name" if name.nil?
+if i &gt;= names.size
+    raise IndexError, "#{i} &gt;= size (#{names.size})"
+end
+raise ArgumentError, "Name too big", caller</code></pre>
+
+<ul>
+<li>Generalmente no se incluye la traza en librer&#xED;as</li>
 </ul>
 </div>
 </div></div>
