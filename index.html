@@ -5297,6 +5297,482 @@ raise ArgumentError, "Name too big", caller</code></pre>
 <li>Generalmente no se incluye la traza en librer&#xED;as</li>
 </ul>
 </div>
+</div><div class="slide" data-transition="uncover"><div class="content small smbullets" ref="09-excepciones/01_excepciones/18">
+<h1><code>catch</code> y <code>throw</code></h1>
+
+<ul>
+<li>Veremos un ejemplo que acalrar&#xE1; el concepto
+
+<ul>
+<li>El siguiente c&#xF3;digo leer&#xE1; palabras que ir&#xE1; agregando en un arreglo que al
+finalizar imprimir&#xE1; en orden inverso. Sin embargo, si alguna l&#xED;nea es
+incorrecta deber&#xE1; salir sin hacer nada</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>word_list = File.open("wordlist")
+word_in_error = catch(:done) do
+    result = []
+    while line = word_list.gets
+      word = line.chomp
+      throw(:done, word) unless word =~ /^\w+$/
+      result &lt;&lt; word
+    end
+    puts result.reverse
+end
+if word_in_error
+    puts "Failed: '#{word_in_error}' found. Not a word"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="10-unit-testing/01_unit-testing/1">
+<h1>Unit testing</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="10-unit-testing/01_unit-testing/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Unit testing es testing que se focaliza en peque&#xF1;os bloques (o unidades)
+de c&#xF3;digo
+
+<ul>
+<li>T&#xED;picamente se testean m&#xE9;todos individuales o l&#xED;neas complejas de un m&#xE9;todo</li>
+<li>Se contrasta con otars estrategias de testing que ven al sistema como un
+todo</li>
+</ul></li>
+<li>Los sistemas de hoy d&#xED;a se desarrollan en capas donde cada una deber&#xED;a poder
+confiar en que la capa de abstracci&#xF3;n utilizada se desempe&#xF1;a correctamente, sin errores.
+
+<ul>
+<li>Un error en capas inferiores, causar&#xED;a errores de propagaci&#xF3;n a capas
+superiores</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/3">
+<h1>Introducci&#xF3;n</h1>
+
+<h2>Una situaci&#xF3;n</h2>
+
+<p>Juan desarrolla una funcionalidad que tiene alg&#xFA;n error no detectado. Unos dos
+meses despu&#xE9;s, desarrollamos determinada funcionalidad que, indirectamente utiliza 
+lo que Juan ha desarrollado. </p>
+
+<p>Cuando nuestro c&#xF3;digo no devuelve los resultados
+esperados, nos llevar&#xE1; un tiempo encontrar el problema dentro del c&#xF3;digo de 
+Juan. Es entonces cuando consultamos con Juan: </p>
+
+<p><strong><em>&#xBF;Por qu&#xE9; encaraste la soluci&#xF3;n as&#xED;?</em></strong> </p>
+
+<p>y la respuesta inmediata ser&#xE1;: </p>
+
+<p><strong>no recuerdo, fue hace varios meses</strong></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/4">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Si Juan hubira usado test de unidad para su c&#xF3;digo, dos cosas hubiesen sucedido: 
+
+<ul>
+<li>Juan podr&#xED;a haber encontrado el error cuando el c&#xF3;digo a&#xFA;n estaba <em>fresco en
+su mente</em></li>
+<li>Dado que el test de unidad s&#xF3;lo contempla las l&#xED;neas que Juan escribi&#xF3;,
+cuando ocurri&#xF3; el problema, podr&#xED;a haber sido mucho m&#xE1;s r&#xE1;pido analizar el
+problema entorno al c&#xF3;digo problem&#xE1;tico en vez de hacer arqueolog&#xED;a en b&#xFA;squeda
+del problema en el resto del c&#xF3;digo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="10-unit-testing/01_unit-testing/5">
+<h1>&#xBF;Por qu&#xE9; conviene usar test de unidad?</h1>
+
+<ul>
+<li>Ayuda a los desarrolladores a escribir mejor c&#xF3;digo
+
+<ul>
+<li>Empezar escribiendo el test de unidad nos lleva a escribir c&#xF3;digo de mayor
+calidad y dise&#xF1;os desacoplados</li>
+<li>Es muy com&#xFA;n que nos suceda que por no pensar los tests antes de escribir el
+c&#xF3;digo, testear el c&#xF3;digo sea un tanto engorroso o dif&#xED;cil de probar por el
+alto acoplamiento de entidades</li>
+</ul></li>
+<li>Ayuda mientras escribimos el c&#xF3;digo, porque nos va dando feedback del
+comportamiento del c&#xF3;digo y ante nuevas dudas que van surgiendo sobre posibles
+casos extra&#xF1;os, nos permite escribir nuevos tests para agregar a nuestra suite
+y as&#xED; quedarnos tranquilos que los casos contemplados en el c&#xF3;digo son testeados</li>
+<li>Ayuda luego de haber escrito el c&#xF3;digo por dos razones:
+
+<ul>
+<li>Chequeando que el c&#xF3;digo sigue funcionando a medida que el desarrollo crece</li>
+<li>Permite a otros desarrolladores entender mejor c&#xF3;mo utilizar nuestro c&#xF3;digo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/6">
+<h1>La trivialidad</h1>
+
+<ul>
+<li>Los tests de unidad son simples: </li>
+</ul>
+
+<p><em>consiste en correr un programa que invocan una parte del c&#xF3;digo de nuestra 
+aplicaci&#xF3;n, obtiene algunos resultados y verifica que  dichos resultados 
+sean los esperados</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/7">
+<h1>Un ejemplo</h1>
+
+<ul>
+<li>Escribir una clase llamada <code>Roman</code> que permita crear objetos con un valor
+num&#xE9;rico y que imprima el valor como un n&#xFA;mero romano</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/8">
+<h1>El programa</h1>
+
+<pre class="sh_ruby"><code>class Roman
+    MAX_ROMAN = 4999
+
+    def initialize(value)
+        if value &lt;= 0 || value &gt; MAX_ROMAN
+            fail "Roman values must be &gt; 0 and &lt;= #{MAX_ROMAN}"
+        end
+        @value = value
+    end
+
+    FACTORS = [["m",1000], ["cm",900], ["d",500], ["cd",400],
+               ["c",100], ["xc",90], ["l",50], ["xl",40],
+               ["x",10], ["ix",9], ["v",5], ["iv",4], ["i",1]]
+
+    def to_s
+        value = @value
+        roman = ""
+        for code, factor in FACTORS
+            count, value = value.divmod(factor)
+            roman &lt;&lt; code unless count.zero?
+        end
+        roman
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="10-unit-testing/01_unit-testing/9">
+<h1>&#xA1;Lo probamos con los dientes!</h1>
+
+<ul>
+<li>Usando  <code>irb</code></li>
+</ul>
+
+<h2>Escribiendo un programa de test</h2>
+
+<pre class="sh_ruby"><code>require 'roman'
+r = Roman.new(1)
+fail "'i' expected" unless r.to_s == "i"
+r = Roman.new(9)
+fail "'ix' expected" unless r.to_s == "ix"</code></pre>
+
+<ul>
+<li>Ruby ya incorpora un framework de tests de unidad:
+
+<ul>
+<li>Hasta 1.8 era Test::Unit</li>
+<li>A partir de 1.9 es MiniTest</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small smbullets" ref="10-unit-testing/01_unit-testing/10">
+<h1>Test::Unit vs MiniTest::Unit</h1>
+
+<ul>
+<li>Durante muchos a&#xF1;os <code>Test::Unit</code> era la opci&#xF3;n de la mayor parte de los
+desarrolladores</li>
+<li>Sin embargo, el core team de ruby decidi&#xF3; optar por Minitest::Unit por ser
+mucho m&#xE1;s liviano</li>
+<li>La mayor parte de las <code>assertions</code> de <code>MiniTest</code> se espejan con las
+definidas en <code>Test::Unit::TesCase</code></li>
+</ul>
+
+<h2>Las diferencias</h2>
+
+<ul>
+<li>Ausencia de <code>assert_not_raises</code> y <code>assert_not_throws</code> en <code>MiniTest</code></li>
+<li>Mientras que en <code>Test::Unit</code> se usa <code>assert_not_nil(x)</code> y <code>assert_not(x), en</code>MiniTest usaremos
+<code>refute_nil(x)</code> y <code>refute(x)</code> </li>
+<li>Adem&#xE1;s:
+
+<ul>
+<li>Minitest remueve muchas caracteristicas de Test::Unit que no son tan usadas</li>
+<li>Si corremos un archivo con tests, MiniTest no invocar&#xE1; los tests en ese
+archivo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/11">
+<h1>Test::Unit vs MiniTest::Unit</h1>
+
+<h2>Aparecen tres opciones de uso:</h2>
+
+<ul>
+<li><code>require 'minitest/unit'</code> y usaremos &#xFA;nicamente la funcionalidad de <strong>MiniTest</strong></li>
+<li><code>require 'test/unit'</code>  y usaremos MiniTest con la capa de <em>compatibilidad</em> con
+Test::Unit habilitada, agregando las assertions ausentes y la funcionalidad de
+autorun mencionadas</li>
+<li>Instalar la gema <code>test-unit</code> y disponer de la funcionalidad original de
+<strong>Test::Unit</strong></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/12">
+<h1>El framework de testing</h1>
+
+<ul>
+<li>El framework de testing provisto por Ruby provee b&#xE1;sicamente tres
+funcionalidades en un mismo paquete:
+
+<ul>
+<li>Provee una forma de expresar tests individuales</li>
+<li>Provee un framework para la estructuraci&#xF3;n de los tests</li>
+<li>Ofrece diversas formas flexibles de invocar los tests</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/13">
+<h1>Assertions</h1>
+
+<ul>
+<li>En vez de escribir un mont&#xF3;n de <code>if/unless</code> se utilizan <strong>assertions</strong> que
+provee el framework de test</li>
+<li>Existen muchos tipos de assertions, pero b&#xE1;sicamente todos siguen el mismo
+patr&#xF3;n: 
+
+<ul>
+<li>Cada assertion provee una forma de especificar un <em>resultado esperado</em> y la
+forma de pasar el valor actual </li>
+<li>Si el valor actual no es el <em>resultado esperado</em>, la assertion imprimir&#xE1; un
+mensaje y contabilizar&#xE1; el fallo</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/14">
+<h1>El ejemplo de Roman</h1>
+
+<h2>Reescribimos los tests que hicimos con los dientes</h2>
+
+<pre class="sh_ruby"><code>require 'roman'
+require 'test/unit'
+class TestRoman &lt; MiniTest::Unit::TestCase
+    def test_simple
+      assert_equal("i", Roman.new(1).to_s)
+      assert_equal("ix", Roman.new(9).to_s)
+    end
+end</code></pre>
+
+<p><em>Lo probamos</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/15">
+<h1>Agregamos m&#xE1;s assertions</h1>
+
+<pre class="sh_ruby"><code>require 'roman'
+require 'test/unit'
+class TestRoman &lt; MiniTest::Unit::TestCase
+    def test_simple
+      assert_equal("i", Roman.new(1).to_s)
+      assert_equal("ii", Roman.new(2).to_s)
+      assert_equal("iii", Roman.new(3).to_s)
+      assert_equal("iv", Roman.new(4).to_s)
+      assert_equal("ix", Roman.new(9).to_s)
+    end
+end</code></pre>
+
+<p><em>Lo probamos</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="10-unit-testing/01_unit-testing/16">
+<h2>Encontramos un</h2>
+
+<p><br/>
+<div class="error"> ERROR </div> </p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/17">
+<h1>Analizamos el problema</h1>
+
+<h2>Miramos el <code>to_s</code></h2>
+
+<pre class="sh_ruby"><code>def to_s
+  value = @value
+  roman = ""
+  for code, factor in FACTORS
+    count, value = value.divmod(factor)
+    roman &lt;&lt; (code * code)
+    # cambiamos: unless count.zero?
+  end
+  roman
+end</code></pre>
+
+<p><em>Lo probamos</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="10-unit-testing/01_unit-testing/18">
+<h1>Refactorizando el test</h1>
+
+<h2>Para no repetir los asserts, podemos:</h2>
+
+<pre class="sh_ruby"><code>require 'roman'
+require 'test/unit'
+class TestRoman &lt; Test::Unit::TestCase
+  NUMBERS = [
+             [ 1, "i" ], [ 2, "ii" ], [ 3, "iii" ],
+             [ 4, "iv"], [ 5, "v" ], [ 9, "ix" ]
+            ]
+  def test_simple
+    NUMBERS.each do |arabic, roman|
+      r = Roman.new(arabic)
+      assert_equal(roman, r.to_s)
+    end
+  end
+end</code></pre>
+
+<ul>
+<li>Podemos testear muchas cosas, por ejemplo el constructor de la clase <code>Roman</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content small bullets" ref="10-unit-testing/01_unit-testing/19">
+<h1>Testeamos el rango de Roman</h1>
+
+<h2>Verificamos si se lanzan las excepciones</h2>
+
+<pre class="sh_ruby"><code>require 'roman'
+require 'test/unit'
+class TestRoman &lt; Test::Unit::TestCase
+    def test_range
+        # no exception for these two...
+        Roman.new(1)
+        Roman.new(4999)
+        # but an exception for these
+        assert_raises(RuntimeError) { Roman.new(0) }
+        assert_raises(RuntimeError) { Roman.new(5000) }
+    end
+end</code></pre>
+
+<ul>
+<li>Analicemos qu&#xE9; m&#xE1;s testear en la clase <code>Roman</code> que genera n&#xFA;meros hasta 4999. Ver carpeta <code>samples/10/romans</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/20">
+<h1>Listado de assertions</h1>
+
+<pre class="sh_ruby"><code>assert | refute(boolean, [ message ] )
+# Fails if boolean is (is not) false or nil.
+
+assert_block { block }
+# Expects the block to return true.
+
+assert_ | refute_empty(collection, [ message ] )
+# Expects empty? on collection to return true (false).
+
+assert_ | refute_equal(expected, actual, [ message ] )
+# Expects actual to equal/not equal expected, using ==.
+
+assert_ | refute_in_delta(expected_float, actual_float, 
+                          delta, [ message ] )
+# Expects that the actual floating-point value is (is not) 
+# within delta of the expected value.
+
+assert_ | refute_in_epsilon(expected_float, actual_float, 
+                            epsilon=0.001, [ message ] )
+# Calculates a delta value as epsilon * min(expected, actual),
+# then calls the _in_delta test.
+
+assert_ | refute_includes(collection, obj, [ message ] )
+# Expects include?(obj) on collection to return true (false).</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/21">
+<h1>Listado de assertions</h1>
+
+<pre class="sh_ruby"><code>assert_ | refute_instance_of(klass, obj, [ message ] )
+# Expects obj to be (not to be) a instance of klass.
+
+assert_ | refute_kind_of(klass, obj, [ message ] )
+# Expects obj to be (not to be) a kind of klass.
+
+assert_ | refute_match(regexp, string, [ message ] )
+# Expects string to (not) match regexp.
+
+assert_ | refute_nil(obj, [ message ] )
+# Expects obj to be (not) nil.
+
+assert_ | refute_operator(obj1, operator, obj2, [ message ] )
+# Expects the result of sending the message operator to obj1 
+# with parameter obj2 to be (not to be) true.
+
+assert_raises(Exception, . . . ) { block }
+# Expects the block to raise one of the listed exceptions.
+
+assert_ | refute_respond_to(obj, message, [ message] )
+# Expects obj to respond to (not respond to) message (a symbol).
+
+assert_ | refute_same(expected, actual, [ message ] )
+# Expects expected.equal?(actual).</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/22">
+<h1>Listado de assertions</h1>
+
+<pre class="sh_ruby"><code>assert_send(send_array, [ message ] )
+# Sends the message in send_array[1] to the receiver in 
+# send_array[0], passing the rest of send_array as arguments. 
+# Expects the return value to be true.
+
+assert_throws(expected_symbol, [ message ] ) { block }
+# Expects the block to throw the given symbol.
+
+flunk(message="Epic Fail!")
+# Always fails.
+
+skip(message)
+# Indicates that a test is deliberately not run.
+
+pass
+# Always passes.</code></pre>
+
+<ul>
+<li>Notar que el &#xFA;ltimo par&#xE1;metro es un mensaje que ser&#xE1; usado en la salida ante
+un error.
+
+<ul>
+<li>Generalmente no es necesario usarlo porque el error es bastante claro,
+salvo  <code>refute_nil</code> que devolver&#xED;a <em>Expected nil to not be nil</em></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/23">
+<h1>Estructurando los tests</h1>
+
+<ul>
+<li><p>Los tests de unidad nos llevan a dos agrupamientos:</p>
+
+<ul>
+<li><strong>De alto nivel</strong>: llamados <em>test cases</em>. Contienen todos los tests para una
+caracter&#xED;stica determinada. En el ejemplo de <code>Roman</code> alcanza con un &#xFA;nico
+test case. Las clases que representan test cases, deben ser subclase de:
+<code>Test::Unit::TestCase</code></li>
+<li><strong>De bajo nivel</strong>: que ser&#xED;an los m&#xE9;todos de test en s&#xED;. Los assertions
+podr&#xED;amos escribirlos todos mezclados, pero en su lugar los agrupamos en
+m&#xE9;todos dentro del test case de forma de que los assertions en un m&#xE9;todo se
+corresponden con un tipo de test: <em>uno testear&#xED;a manejo de errores, otro
+m&#xE9;todos de inicializaci&#xF3;n, l&#xED;mites, etc</em>. Los m&#xE9;todos de test, deben
+comenzar con el prefijo <strong>test</strong> para que sean seleccionados como tales</li>
+</ul></li>
+<li><p>Generalmente queremos ejecutar determinado c&#xF3;digo antes y luego de cada test.
+Disponemos entonces de:</p>
+
+<ul>
+<li><code>setup</code></li>
+<li><code>teardown</code></li>
+<li>Ver <code>samples/10/setup-teardown</code></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/24">
+<h1>C&#xF3;mo correr los tests</h1>
+</div>
 </div></div>
 <div id="pauseScreen">
   
