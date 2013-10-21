@@ -36,6 +36,8 @@
     
       <script type="text/javascript" src="./js/sh_lang/sh_java.min.js"></script>
     
+      <script type="text/javascript" src="./js/sh_lang/sh_html.min.js"></script>
+    
   
 
   
@@ -5772,6 +5774,400 @@ Disponemos entonces de:</p>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/24">
 <h1>C&#xF3;mo correr los tests</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="11-gems-bundler/01_gems/1">
+<h1>Gem</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/01_gems/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Una gema es un formato simple para publicar y compartir c&#xF3;digo Ruby.</li>
+<li>Cada gema tiene un nombre, versi&#xF3;n y plataforma.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/01_gems/3">
+<h1>Comandos b&#xE1;sicos</h1>
+
+<ul>
+<li>Instalar una gema: <code>gem install rake</code></li>
+<li>Buscar una gema: <code>gem search sinatra</code></li>
+<li>Listar gemas instaladas: <code>gem list</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="11-gems-bundler/02_bundler/1">
+<h1>Bundler</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/02_bundler/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Mantiene un entorno consistente para las aplicaciones ruby</li>
+<li>Asegura que la aplicaci&#xF3;n que lo use tenga las dependencias necesarias
+para que se ejecute sin errores.</li>
+<li>Bundler es una gema: <code>gem install bundler</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/02_bundler/3">
+<h1>Ejemplo</h1>
+
+<h2>Definimos las dependencias en el archivo <code>Gemfile</code></h2>
+
+<pre class="sh_ruby"><code>source 'https://rubygems.org'
+
+gem 'sinatra'</code></pre>
+
+<h2>Luego instalamos las dependencias con <code>bundle install</code> o simplemente <code>bundle</code></h2>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/02_bundler/4">
+<h1>Comandos</h1>
+
+<ul>
+<li>Instalar dependencias: <code>bundle install</code></li>
+<li>Actualizar dependencias a sus &#xFA;ltimas versiones: <code>bundle update</code></li>
+<li>Ejecutar un script en el contexto del bundle actual: <code>bundle exec</code></li>
+<li>Ver las gemas instaladas en el bundle actual: <code>bundle list</code></li>
+<li>Ver donde est&#xE1; ubicada una gema: <code>bundle show NOMBRE_GEMA</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/02_bundler/5">
+<h1>Gemfile</h1>
+
+<ul>
+<li>Se escribe con una DSL propia de bundler (extraida de Rubygems)</li>
+<li>Puede incluir cualquier c&#xF3;digo ruby!</li>
+<li>La sentencia <code>gem</code> indica una dependencia y acepta los siguientes
+par&#xE1;metros:
+
+<ul>
+<li>versi&#xF3;n, por ejemplo: <code>'&gt;= 1.1.0'</code>, <code>'~&gt; 3.1.2'</code></li>
+<li>github (construir la gema a partir de un repositorio en github): <code>github: 'sinatra/sinatra'</code></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>source 'https://rubygems.org'
+gem 'sinatra', github: 'sinatra/sinatra'
+gem 'activerecord', '~&gt; 3.1.0'</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="11-gems-bundler/02_bundler/6">
+<h1>Usando bundler</h1>
+
+<ul>
+<li>Con declarar las dependencias en el <code>Gemfile</code> no basta, hay que invocar a bundler.</li>
+<li>Hay dos formas:</li>
+</ul>
+
+<h2>Dejar que bundler se encargue de requerir los archivos</h2>
+
+<pre class="sh_ruby"><code>require 'bundler'
+Bundler.require</code></pre>
+
+<h2>Que bundler arme el entorno y nosotros requerimos los archivos</h2>
+
+<pre class="sh_ruby"><code>require 'bundler'
+Bundler.setup
+require 'sinatra'</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="12-sinatra/01_http/1">
+<h1>HTTP</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/01_http/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Es un protocolo de red de la capa de aplicaci&#xF3;n</li>
+<li>Es la espina dorsal de la comunicaci&#xF3;n entre clientes y servidores</li>
+<li>Cuando un cliente (un browser, una aplicaci&#xF3;n web, un servicio) quiere
+interactuar con un servidor sobre HTTP le env&#xED;a un mensaje (<strong>Request</strong>)</li>
+<li>Luego, cuando el servidor termina de procesar el Request puede comunicar
+informaci&#xF3;n al cliente creando un mensaje HTTP propio (<strong>Response</strong>).</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/01_http/3">
+<h1>Introducci&#xF3;n (continuaci&#xF3;n)</h1>
+
+<ul>
+<li>El <strong>Response</strong> usualmente contiene la siguiente informaci&#xF3;n:
+
+<ul>
+<li><strong>status</strong>: si el <strong>Request</strong> del cliente fue exitoso, si ocurri&#xF3; un
+error, etc.</li>
+<li><strong>headers</strong>: por ejemplo que tipo de contenido se env&#xED;a al cliente, etc.</li>
+<li><strong>body</strong>: por ejemplo, un documento HTML</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/01_http/4">
+<h1>Mensaje HTTP</h1>
+
+<p>Un mensaje HTTP se compone por:</p>
+
+<ul>
+<li><strong>Start line</strong>: Es la primera l&#xED;nea del Request. Identifica el
+<strong>Verbo HTTP</strong>, a que recurso acceder y denota la versi&#xF3;n de HTTP a usar.</li>
+<li><strong>Headers</strong>: Proveen informaci&#xF3;n adicional acerca del Request. Ejemplos de
+headers son: los valores de las cookies para el dominio, el tipo de contenido
+a aceptar, etc.</li>
+<li><strong>Message Body</strong>: Puede contener datos binarios o de texto. Por ejemplo,
+cuando se sube una imagen a facebook, los datos binarios de la foto son
+enviados en este campo. Este campo no es obligatorio.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/01_http/5">
+<h1>Verbos HTTP</h1>
+
+<ul>
+<li><strong>GET</strong>: se usa para pedirle al servidor web la representaci&#xF3;n de un
+recurso.</li>
+<li><strong>POST</strong>: se usa para enviar datos a un servidor web.</li>
+<li><strong>PUT</strong>: se usa para crear o actualizar la representaci&#xF3;n de un recurso en
+un servidor web.</li>
+<li><strong>DELETE</strong>: se usa para destruir un recurso en un servidor web.</li>
+<li><strong>PATCH</strong>: se usa para actualizar una parte de un recurso.</li>
+<li>La especificaci&#xF3;n de HTTP tambi&#xE9;n define <strong>OPTIONS</strong>, <strong>HEAD</strong>, <strong>TRACE</strong> y
+<strong>CONNECT</strong>, los cuales dejaremos de lado.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="12-sinatra/02_sinatra/1">
+<h1>Sinatra</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Es una DSL para desarrollar aplicaciones y web services en Ruby basado en
+<strong>Rack</strong> (Recordar este t&#xE9;rmino, lo nombraremos mucho de aqu&#xED; en adelante)</li>
+<li>Hace &#xE9;nfasis en el desarrollo minimalista, ofreciendo s&#xF3;lo lo que es
+esencial para manejar Requests HTTP y entregar Responses a los clientes.</li>
+<li>Tiene una sintaxis simple</li>
+<li>No es un framework:
+
+<ul>
+<li>No tiene un ORM</li>
+<li>No tiene archivos de configuraci&#xF3;n</li>
+<li>No hay estructura de archivos</li>
+</ul></li>
+<li>No fuerza a implementar MVC ni ning&#xFA;n otro patr&#xF3;n</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/3">
+<h1>Ejemplo</h1>
+
+<pre class="sh_ruby"><code>require 'sinatra'
+
+get '/' do
+  'hello world'
+end</code></pre>
+
+<h2>Guardamos el archivo como <code>server.rb</code> y luego lo ejecutamos (<code>ruby server.rb</code>)</h2>
+
+<h2>Probemoslo con curl!</h2>
+
+<pre class="sh_ruby"><code>$ curl -v http://localhost:4567/</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/4">
+<h1>Y como lo testeamos?</h1>
+
+<ul>
+<li>Para testear aplicaciones sinatra usaremos una gema llamada <code>rack-test</code></li>
+<li>Para testear el ejemplo, haremos un request <code>GET /</code> y esperaremos que nos
+devuelva un c&#xF3;digo de estado <code>200</code> (OK), y que el body sea <code>'hello world'</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/5">
+<h1>Y como lo testeamos?</h1>
+
+<pre class="sh_ruby"><code>require 'minitest/autorun'
+require 'rack/test'
+require_relative 'server'
+
+class HelloWorldTest &lt; Minitest::Test
+  include Rack::Test::Methods
+
+  def app
+    Sinatra::Application
+  end
+
+  def test_get_root
+    get '/'
+    assert_equal 200, last_response.status
+    assert_equal 'hello world', last_response.body
+  end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/6">
+<h1>Sinatra: rutas con par&#xE1;metros</h1>
+
+<ul>
+<li>En sinatra, las rutas pueden tambi&#xE9;n aceptar par&#xE1;metros variables que son
+expuestos al c&#xF3;digo en la variable params.</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>require 'sinatra'
+
+get '/hello/:name' do
+  # todo lo que venga en el query string ser&#xE1; capturado en params, por ejemplo:
+  # '/hello/Patricio?username=patricio
+  "Hello #{params[:name]}"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/7">
+<h1>Sinatra: valor de retorno</h1>
+
+<ul>
+<li>El valor de retorno de un bloque de ruta determina al menos el cuerpo de la
+respuesta que se le pasa al cliente HTTP o al siguiente middleware en la pila
+de Rack.</li>
+<li>Lo m&#xE1;s com&#xFA;n es que sea un string, como en los ejemplos anteriores.</li>
+<li>Sin embargo, otros valores tambi&#xE9;n son aceptados (no lo veremos ahora)</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/8">
+<h1>Sinatra: caracter&#xED;sticas</h1>
+
+<ul>
+<li><strong>Archivos est&#xE1;ticos</strong>: Son servidos desde el directorio <code>public</code></li>
+<li><strong>Vistas/Plantillas</strong>: Sinatra soporta numerosos template engines, y para
+renderizar vistas de cada template engine se expone un m&#xE9;todo con su mismo
+nombre. A estos m&#xE9;todos debe pas&#xE1;rsele un s&#xED;mbolo con el nombre de la vista
+a utilizar, que debe ser guardado en el directorio <code>views</code></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>get '/' do
+  @name = 'Frank Sinatra'
+  erb :index
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/9">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<pre class="sh_html"><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Welcome&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    Hello, &lt;%= @name %&gt;!
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/10">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<ul>
+<li><strong>Filtros</strong>: Los filtros <code>before</code> son evaluados antes de cada petici&#xF3;n
+dentro del mismo contexto que las rutas. Pueden modificar la petici&#xF3;n y la
+respuesta. Las variables de instancia asignadas en los filtros son accesibles
+por las rutas y las plantillas (Idem con <code>after</code>):</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>before do
+  @nota = 'Hey!'
+end
+
+get '/' do
+  @nota #=&gt; 'Hey!'
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/11">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<ul>
+<li><strong>Helpers</strong>: Son m&#xE9;todos que pueden ser usados en los bloques de rutas y los
+templates.</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>helpers do
+  def bar(name)
+    "#{name}bar"
+  end
+end
+
+get '/:name' do
+  "#{bar params[:name]}"
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/12">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<ul>
+<li><strong>Sessions</strong>: Una sesi&#xF3;n es usada para mantener el estado a trav&#xE9;s de
+distintas peticiones. Cuando est&#xE1;n activadas, proporciona un hash de sesi&#xF3;n
+para cada sesi&#xF3;n de usuario:</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>enable :sessions
+
+get '/' do
+  "value = " &lt;&lt; session[:value].inspect
+end
+
+get '/:value' do
+  session[:value] = params[:value]
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/13">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<ul>
+<li><strong>Redirecciones del navegador</strong>: Pod&#xE9;s redireccionar al navegador con el
+m&#xE9;todo redirect:</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>get '/foo' do
+  redirect to('/bar')
+end
+
+get '/bar' do
+  'Hello!'
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/14">
+<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+
+<ul>
+<li><strong>Manejo de errores</strong>: Los manejadores de errores se ejecutan dentro del
+mismo contexto que las rutas y los filtros before, lo que significa que pod&#xE9;s
+usar, por ejemplo, haml, erb, halt, etc.</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>not_found do
+  'Ruta no encontrada'
+end
+
+error do
+  'Disculp&#xE1;, ocurri&#xF3; un error horrible - ' +
+    env['sinatra.error'].name
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="12-sinatra/03_referencias/1">
+<h1>Referencias</h1>
+
+<ul>
+<li><a href="http://www.sinatrarb.com/">Sitio web de Sinatra</a></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="12-sinatra/03_referencias/2">
+<h1>Otros recursos</h1>
+
+<ul>
+<li><a href="https://github.com/ttps-ruby/sinatra_app_template">sinatra_ app_ template</a></li>
+</ul>
 </div>
 </div></div>
 <div id="pauseScreen">
