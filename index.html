@@ -38,6 +38,8 @@
     
       <script type="text/javascript" src="./js/sh_lang/sh_html.min.js"></script>
     
+      <script type="text/javascript" src="./js/sh_lang/sh_sql.min.js"></script>
+    
   
 
   
@@ -6167,6 +6169,392 @@ end</code></pre>
 
 <ul>
 <li><a href="https://github.com/ttps-ruby/sinatra_app_template">sinatra_ app_ template</a></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content center" ref="13-activerecord/01_activerecord/1">
+<h1>Active Record</h1>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="13-activerecord/01_activerecord/2">
+<h1>Introducci&#xF3;n</h1>
+
+<ul>
+<li>Representa la M de MVC (el modelo)</li>
+<li>Conecta clases a tablas de una base de datos estableciendo una capa de
+persistencia</li>
+<li>La librer&#xED;a provee una clase base que al subclasearse, mapea la nueva clase
+con una tabla existente de una base de datos</li>
+<li>En el contexto de una aplicaci&#xF3;n a estas clases suelen llamarselas <strong>modelos</strong></li>
+<li>Los modelos pueden conectarse con otros modelos usando <strong>asociaciones</strong></li>
+<li>Active Record se basa much&#xED;simo en convenciones de nombres de forma tal que
+utiliza el nombre de una clase o asociaci&#xF3;n para establecer mapeos con tablas
+de la base de datos y claves for&#xE1;neas.
+
+<ul>
+<li>A pesar de poder definir estos mapeos en forma expl&#xED;cita, es muy
+recomendable seguir las convenciones de nombres, especialmente durante el
+aprendizaje de la librer&#xED;a</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/3">
+<h1>ORM</h1>
+
+<ul>
+<li>Object Relational Mapping (ORM) es una t&#xE9;cnica que conecta objetos de una
+aplicaci&#xF3;n a tablas de un RDBMS. </li>
+<li>Utilizando ORM, las propiedades y relaciones de los objetos en una aplicaci&#xF3;n
+pueden ser f&#xE1;cilmente almacenados y recuperados de una base de datos <strong>sin</strong>
+escribir SQL directamente, minimizando el c&#xF3;digo de base de datos</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/4">
+<h1>Active Record como Framework de ORM</h1>
+
+<ul>
+<li>Representa modelos y sus datos</li>
+<li>Representa asociaciones entre los modelos</li>
+<li>Representa herencia entre modelos</li>
+<li>Validaciones de modelos antes de ser persistidos</li>
+<li>Operaciones de bases de datos de forma orientada a objetos</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="13-activerecord/01_activerecord/5">
+<h1>Convention over configuration para Active Record</h1>
+
+<ul>
+<li>En la mayor&#xED;a de los frameworks ORM es necesario configurar varios archivos
+para comenzar a operar</li>
+<li>En Active Record, si se siguen las convenciones adoptadas por Rails, ser&#xE1;
+necesario escribir muy pocas configuraciones (en algunos casos ninguna
+configuraci&#xF3;n) para crear modelos</li>
+<li>La configuraci&#xF3;n expl&#xED;cita ser&#xE1; necesaria s&#xF3;lo cuando no pueda seguirse la
+convenci&#xF3;n estandar</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="13-activerecord/01_activerecord/6">
+<h1>El primer ejemplo</h1>
+
+<ul>
+<li>Active Record mapea autom&#xE1;ticamente entre tablas y clases, atributos y
+columnas</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>class Product &lt; ActiveRecord::Base
+end</code></pre>
+
+<p>La clase <code>Product</code> <strong>se mapea autom&#xE1;ticamente a la tabla llamada <code>products</code></strong>, que
+podr&#xED;a ser algo como:</p>
+
+<pre class="sh_sql"><code>CREATE TABLE products (
+    id int(11) NOT NULL auto_increment,
+    name varchar(255),
+    PRIMARY KEY  (id)
+);</code></pre>
+
+<p>Adem&#xE1;s se definen los siguientes accessors: <code>Product#name</code> y
+<code>Product#name=(new_name)</code></p>
+
+<p><em>Ver ejemplo <code>13/00-intro-ar</code> y notar que no funcionar&#xE1; si no existe la tabla
+creada</em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/7">
+<h1>Convenciones de nombres</h1>
+
+<ul>
+<li>Los nombres de las clases se pluralizan para encontrar las tablas
+
+<ul>
+<li>Por ejemplo <code>Book</code> se mapea a <code>books</code> </li>
+<li>El mecanismo de pluralizaci&#xF3;n (definido por Rails) es muy potente y puede
+pluralizar (y singularizar) palabras regulares como irregulares. </li>
+<li>Cuando las clases se componen de m&#xE1;s de una palabra, se utiliza <strong>CamelCase</strong> 
+y el nombre de la tabla se compone de las palabras separadas por
+underscores. Por ejemplo: la clase <code>BookClub</code> se mapear&#xE1; a la tabla
+<code>book_clubs</code></li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/8">
+<h1>Ejemplo de mapeos</h1>
+
+<pre><code>
+    +---------------+---------------+
+    | Model / Class | Table / Schema|
+    +---------------+---------------+
+    | Post          | posts         |
+    | LineItem      | line_items    |
+    | Deer          | deers         |
+    | Mouse         | mice          |
+    | Person        | people        |
+    +---------------+---------------+</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/9">
+<h1>Convenciones sobre los esquemas</h1>
+
+<ul>
+<li>Active Record utiliza convenciones para las columnas de las tablas,
+dependiendo del prop&#xF3;sito de estas columnas
+
+<ul>
+<li><strong>Claves for&#xE1;neas:</strong> deben llamarse de la siguiente forma:
+<code>nombre_en_singular_id</code> (por ejemplo: <code>item_id</code>, <code>order_id</code>). Estos ser&#xE1;n
+los campos por los que Active Record buscar&#xE1; cuando se creen asociaciones entre
+modelos</li>
+<li><strong>Claves primarias:</strong> por defecto, Active Record utilizar&#xE1; una columna de
+tipo entero llamada <code>id</code> como clave primaria. Cuando se usan <em>Migraciones de
+active Record</em> para crear las tablas, esta columna se crear&#xE1; autom&#xE1;ticamente</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="13-activerecord/01_activerecord/10">
+<h1>M&#xE1;s convenciones sobre los esquemas</h1>
+
+<ul>
+<li><code>created_at</code>: esta columna autom&#xE1;ticamente setea la fecha y hora cuando el
+registro es creado</li>
+<li><code>updated_at</code>: esta columna autom&#xE1;ticamente setea la fecha y hora cuando el
+registro es actualizado</li>
+<li><code>lock_version</code>: agrega <a href="http://api.rubyonrails.org/classes/ActiveRecord/Locking/Optimistic.html">optimistic
+locking</a> al modelo</li>
+<li><code>type</code>: especifica que el modelo utiliza <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table
+Inheritance</a></li>
+<li><code>(association_name)_type</code>: especifica el tipo de <a href="http://edgeguides.rubyonrails.org/association_basics.html#polymorphic-associations">asociaciones
+polim&#xF3;rifcas</a></li>
+<li><code>(table_name)_count</code>: usado para cachear el n&#xFA;mero de registros que perteneces
+a una asociaci&#xF3;n. Por ejemplo, una columna <code>comments_count</code> en la clase <code>Post</code> que tiene muchas instancias de <code>Comment</code>, cachear&#xE1; el n&#xFA;mero de comentarios existentes para cada post.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="13-activerecord/01_activerecord/11">
+<h1>Creando modelos en Active Record</h1>
+
+<ul>
+<li>Es muy simple crear modelos con Active Record
+
+<ul>
+<li>Simplemente se subclasea <code>ActiveRecord::Base</code> y listo</li>
+</ul></li>
+</ul>
+
+<h2>Por ejemplo</h2>
+
+<pre class="sh_ruby"><code>class Product &lt; ActiveRecord::Base
+end
+p = Product.new
+p.name = "Some Book"
+puts p.name # "Some Book"</code></pre>
+
+<ul>
+<li>Esto crear&#xE1; el mapeo entre <code>Product</code> y la tabla <code>products</code>. </li>
+<li>Adem&#xE1;s exisitr&#xE1; el mapeo de cada campo en la tabla a accessors del objeto.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/12">
+<h1>CRUD: Leyendo y escribiendo datos</h1>
+
+<ul>
+<li>CRUD significa <strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, <strong>D</strong>elete</li>
+<li>Active Record provee m&#xE9;todos que permiten a la aplicaci&#xF3;n leer y escribir
+datos en las tablas</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="13-activerecord/01_activerecord/13">
+<h1>Creaci&#xF3;n</h1>
+
+<ul>
+<li>Los objetos Active Record pueden crearse desde:
+
+<ul>
+<li>Un Hash</li>
+<li>Un bloque</li>
+<li>Setear manualmente los atributos luego de la creaci&#xF3;n</li>
+</ul></li>
+<li>El m&#xE9;todo <code>new</code> retornar&#xE1; un objeto <strong>nuevo</strong> mientras que <code>create</code> retornar&#xE1;
+un objeto y lo <strong>guardar&#xE1;</strong> en la base de datos</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>user = User.create(name: "David",
+                   occupation: "Code Artist")
+# es lo mismo que:
+user = User.new
+user.name = "David"
+user.occupation = "Code Artist"
+user.save</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="13-activerecord/01_activerecord/14">
+<h1>Creaci&#xF3;n con bloques</h1>
+
+<pre class="sh_ruby"><code>user = User.new do |u|
+    u.name = "David"
+    u.occupation = "Code Artist"
+end</code></pre>
+
+<p><em>funciona tanto con <code>new</code> como <code>create</code></em></p>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="13-activerecord/01_activerecord/15">
+<h1>Lectura</h1>
+
+<ul>
+<li>Active Record provee una completa API para acceder a los datos de una base de
+datos</li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code># return a collection with all users
+users = User.all
+
+# return the first user
+user = User.first
+
+# find all users named David who are Code Artists and 
+# sort by created_at inreverse chronological order
+users = User.where(name: 'David', 
+                   occupation: 'Code Artist').
+                   order('created_at DESC')</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="13-activerecord/01_activerecord/16">
+<h1>Actualizaci&#xF3;n</h1>
+
+<ul>
+<li>Una vez que un dato es recuperado, sus atributos pueden modificarse y luego
+almacenarse en la base de datos nuevamente</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>user = User.find_by(name: 'David')
+user.name = 'Dave'
+user.save
+
+# Lo mismo pero m&#xE1;s corto
+user = User.find_by(name: 'David')
+user.update(name: 'Dave')
+
+# Para cambios masivos
+User.update_all "max_attempts = 3, must_change_pwd = 'true'"</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/17">
+<h1>Eliminaci&#xF3;n</h1>
+
+<ul>
+<li>De igual forma, una vez recuperado un objeto Active Record, podr&#xE1; destruirse 
+y a su vez eliminarse de la base de datos</li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>user = User.find_by(name: 'David')
+user.destroy</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="13-activerecord/01_activerecord/18">
+<h1>Validaciones</h1>
+
+<ul>
+<li>Active Record permite validar el estado de un modelo antes de que sea escrito
+a la base de datos</li>
+<li>Existen varios mecanismos para validar y chequear que ciertos atributos no
+sean blanco, no vac&#xED;o, &#xFA;nicos, tener un formato espec&#xED;fico, etc. </li>
+<li>Las validaciones deben ser consideradas a la hora de persistir datos en la
+base de datos
+
+<ul>
+<li>Por ello, los m&#xE9;todos como <code>create</code>, <code>save</code> y <code>update</code> consideran las
+validaciones. </li>
+<li>Retornan <code>false</code> cuando la validaci&#xF3;n falla y no actualizan el dato en la
+base de datos</li>
+<li>Todos estos m&#xE9;todos tiene sus correspondientes con bang! (<code>create!</code>,
+<code>save!</code>y <code>update!</code>) que son estrictos en cuanto a lanzar una excepci&#xF3;n <code>ActiveRecord::RecordInvalid</code>
+cuando la validaci&#xF3;n falla.</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/19">
+<h1>Ejemplo de Validaciones</h1>
+
+<pre class="sh_ruby"><code>class User &lt; ActiveRecord::Base
+    validates :name, presence: true
+end
+
+User.create  
+# =&gt; false
+User.create! 
+# =&gt; ActiveRecord::RecordInvalid: 
+#    Validation failed: 
+#    Name can't be blank</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="13-activerecord/01_activerecord/20">
+<h1>Callbacks</h1>
+
+<ul>
+<li>Active Record callbacks permiten adjuntar c&#xF3;digo a ciertos eventos en el ciclo
+de vida de los modelos.</li>
+<li>Permiten agregar comportamiento a los modelos que es ejecutado de forma transparente 
+cuando estos eventos suceden.</li>
+<li>Pueden agregarse eventos cuando se crea un nuevo registro, al modificarse, al
+eliminarse, etc</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/21">
+<h1>Migraciones</h1>
+
+<ul>
+<li>Las migraciones son una DSL para el manejo de esquemas de bases de datos
+llamados migraciones</li>
+<li>Las migraciones se almacenan en archivos que son ejecutados contra una base de
+datos soportada por Active Recors usando <code>rake</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="13-activerecord/01_activerecord/22">
+<h1>Migraciones</h1>
+
+<h2>Ejemplo de una migraci&#xF3;n que crea una tabla</h2>
+
+<pre class="sh_ruby"><code>class CreatePublications &lt; ActiveRecord::Migration
+    def change
+        create_table :publications do |t|
+            t.string :title
+            t.text :description
+            t.references :publication_type
+            t.integer :publisher_id
+            t.string :publisher_type
+            t.boolean :single_issue
+
+            t.timestamps
+        end
+        add_index :publications, :publication_type_id
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="13-activerecord/01_activerecord/23">
+<h1>Migraciones</h1>
+
+<ul>
+<li>Las migraciones permiten tener un registro en la misma base de datos que
+indica qu&#xE9; cambios se han aplicado</li>
+<li>Los cambios entonces pueden versionarse y comitirse o deshacerse en la base de
+datos</li>
+<li>Para aplicar las migraciones pendientes: <code>rake db:migrate</code></li>
+<li>Para deshacer un cambio hecho: <code>rake db:rollback</code></li>
+<li>La DSL es agn&#xF3;stico a la base de datos: funciona en Mysql, SQlite, Oracle,
+Postgres, etc</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets" ref="13-activerecord/01_activerecord/24">
+<h1>Referencias</h1>
+
+<ul>
+<li><a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html">API</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/active_record_basics.html">Active Record base</a></li>
+<li><a href="http://guides.rubyonrails.org/association_basics.html">Active Record Associations</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/active_record_querying.html">Active Record Querying</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/active_record_validations.html">Active Record Validations</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/active_record_callbacks.html">Active Record
+Callbacks</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/migrations.html">Active Record Migrations</a></li>
 </ul>
 </div>
 </div></div>
