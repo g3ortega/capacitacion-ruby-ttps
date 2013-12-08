@@ -4080,7 +4080,7 @@ wrongdoing = Moral.sin(Moral::VERY_BAD)</code></pre>
 <ul>
 <li>As&#xED; como en los m&#xE9;todos de clase, se invocan los m&#xE9;todos de un m&#xF3;dulo
 precedi&#xE9;ndolos con el nombre del m&#xF3;dulo y un punto</li>
-<li>Las constantes se referencian con el nombre del m&#xF3;dulo y dos puntos</li>
+<li>Las constantes se referencian con el nombre del m&#xF3;dulo y doble dos puntos (::)</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="05-clases-objetos-variables/03_herencia-modulos-mixins/15">
@@ -4553,7 +4553,7 @@ end</code></pre>
 <li><em>No es error que el nombre comience con may&#xFA;sucla, el problema es que en la
 invocaci&#xF3;n, Ruby tratar&#xE1; de interpretarlo como una constante, y por tanto
 parsear la llamada en forma incorrecta. Por convenci&#xF3;n, los m&#xE9;todos que
-comienzan con may&#xFA;sucla se utilizan para conversiones de tipos</em></li>
+comienzan con may&#xFA;scula se utilizan para conversiones de tipos</em></li>
 </ul></li>
 <li>Cuando retornamos un boolean, es prolijo que el m&#xE9;todo termine con <code>?</code></li>
 <li>Aquellos m&#xE9;todos <em>peligrosos</em> deben terminar con <code>!</code></li>
@@ -4743,7 +4743,7 @@ list.search(:titles,
 list.search(:titles, genre: 'jazz', duration_less_than: 270)</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content small" ref="07-metodos/01_metodos/11">
-<h1>Keyword aruments: solo Ruby 2.0</h1>
+<h1>Keyword arguments: solo Ruby 2.0</h1>
 
 <h2>Asumimos un supuesto m&#xE9;todo <code>log</code></h2>
 
@@ -4761,7 +4761,7 @@ end
 log("Hello!", level: "INFO")</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/12">
-<h1>Keyword aruments: solo Ruby 2.0</h1>
+<h1>Keyword arguments: solo Ruby 2.0</h1>
 
 <ul>
 <li>Las cosas parecen simples, pero todo se complica un poco si sucede:
@@ -4785,7 +4785,7 @@ end</code></pre>
 <p><em>Pero nos gust&#xF3; preservar la primer versi&#xF3;n del ejemplo</em></p>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/13">
-<h1>Keyword aruments: solo Ruby 2.0</h1>
+<h1>Keyword arguments: solo Ruby 2.0</h1>
 
 <h2>Probamos los argumentos</h2>
 
@@ -4802,7 +4802,7 @@ log(level: "ERROR", time: Time.now, "Hello!")</code></pre>
 <pre class="sh_ruby"><code>log("Hello!", date: Time.new) </code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/14">
-<h1>Keyword aruments: solo Ruby 2.0</h1>
+<h1>Keyword arguments: solo Ruby 2.0</h1>
 
 <ul>
 <li>Si queremos evitar las excepciones 
@@ -4822,7 +4822,7 @@ end
 log("Hello!", date: Time.now) </code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="07-metodos/01_metodos/15">
-<h1>Keyword aruments: solo Ruby 2.0</h1>
+<h1>Keyword arguments: solo Ruby 2.0</h1>
 
 <h2>Todos los casos</h2>
 
@@ -5342,7 +5342,7 @@ de c&#xF3;digo
 
 <ul>
 <li>T&#xED;picamente se testean m&#xE9;todos individuales o l&#xED;neas complejas de un m&#xE9;todo</li>
-<li>Se contrasta con otars estrategias de testing que ven al sistema como un
+<li>Se contrasta con otras estrategias de testing que ven al sistema como un
 todo</li>
 </ul></li>
 <li>Los sistemas de hoy d&#xED;a se desarrollan en capas donde cada una deber&#xED;a poder
@@ -5965,21 +5965,21 @@ end</code></pre>
 
 <h2>Guardamos el archivo como <code>server.rb</code> y luego lo ejecutamos (<code>ruby server.rb</code>)</h2>
 
-<h2>Probemoslo con curl!</h2>
+<h2>Prob&#xE9;moslo con curl!</h2>
 
 <pre class="sh_ruby"><code>$ curl -v http://localhost:4567/</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/4">
-<h1>Y como lo testeamos?</h1>
+<h1>Y c&#xF3;mo lo testeamos?</h1>
 
 <ul>
 <li>Para testear aplicaciones sinatra usaremos una gema llamada <code>rack-test</code></li>
 <li>Para testear el ejemplo, haremos un request <code>GET /</code> y esperaremos que nos
-devuelva un c&#xF3;digo de estado <code>200</code> (OK), y que el body sea <code>'hello world'</code></li>
+devuelva un c&#xF3;digo de estado <code>200</code> (OK) y que el body sea <code>'hello world'</code></li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/5">
-<h1>Y como lo testeamos?</h1>
+<h1>Y c&#xF3;mo lo testeamos?</h1>
 
 <pre class="sh_ruby"><code>require 'minitest/autorun'
 require 'rack/test'
@@ -6012,8 +6012,9 @@ expuestos al c&#xF3;digo en la variable params.</li>
 <pre class="sh_ruby"><code>require 'sinatra'
 
 get '/hello/:name' do
-  # todo lo que venga en el query string ser&#xE1; capturado en params, por ejemplo:
-  # '/hello/Patricio?username=patricio
+  # Todo lo que venga en el query string 
+  # ser&#xE1; capturado en params, por ejemplo:
+  # '/hello/Patricio?username=patricio'
   "Hello #{params[:name]}"
 end</code></pre>
 </div>
@@ -6065,7 +6066,7 @@ end</code></pre>
 <li><strong>Filtros</strong>: Los filtros <code>before</code> son evaluados antes de cada petici&#xF3;n
 dentro del mismo contexto que las rutas. Pueden modificar la petici&#xF3;n y la
 respuesta. Las variables de instancia asignadas en los filtros son accesibles
-por las rutas y las plantillas (Idem con <code>after</code>):</li>
+por las rutas y las plantillas (idem con <code>after</code>):</li>
 </ul>
 
 <h2>Ejemplo</h2>
@@ -6181,7 +6182,7 @@ end</code></pre>
 <li>Representa la M de MVC (el modelo)</li>
 <li>Conecta clases a tablas de una base de datos estableciendo una capa de
 persistencia</li>
-<li>La librer&#xED;a provee una clase base que al subclasearse, mapea la nueva clase
+<li>La librer&#xED;a provee una clase base que al heredarse, mapea la nueva clase
 con una tabla existente de una base de datos</li>
 <li>En el contexto de una aplicaci&#xF3;n a estas clases suelen llamarselas <strong>modelos</strong></li>
 <li>Los modelos pueden conectarse con otros modelos usando <strong>asociaciones</strong></li>
@@ -6268,7 +6269,7 @@ creada</em></p>
 <ul>
 <li>Por ejemplo <code>Book</code> se mapea a <code>books</code> </li>
 <li>El mecanismo de pluralizaci&#xF3;n (definido por Rails) es muy potente y puede
-pluralizar (y singularizar) palabras regulares como irregulares. </li>
+pluralizar (y singularizar) tanto palabras regulares como irregulares. </li>
 <li>Cuando las clases se componen de m&#xE1;s de una palabra, se utiliza <strong>CamelCase</strong> 
 y el nombre de la tabla se compone de las palabras separadas por
 underscores. Por ejemplo: la clase <code>BookClub</code> se mapear&#xE1; a la tabla
@@ -6304,7 +6305,7 @@ los campos por los que Active Record buscar&#xE1; cuando se creen asociaciones e
 modelos</li>
 <li><strong>Claves primarias:</strong> por defecto, Active Record utilizar&#xE1; una columna de
 tipo entero llamada <code>id</code> como clave primaria. Cuando se usan <em>Migraciones de
-active Record</em> para crear las tablas, esta columna se crear&#xE1; autom&#xE1;ticamente</li>
+Active Record</em> para crear las tablas, esta columna se crear&#xE1; autom&#xE1;ticamente</li>
 </ul></li>
 </ul>
 </div>
@@ -6322,7 +6323,7 @@ locking</a> al modelo</li>
 Inheritance</a></li>
 <li><code>(association_name)_type</code>: especifica el tipo de <a href="http://edgeguides.rubyonrails.org/association_basics.html#polymorphic-associations">asociaciones
 polim&#xF3;rifcas</a></li>
-<li><code>(table_name)_count</code>: usado para cachear el n&#xFA;mero de registros que perteneces
+<li><code>(table_name)_count</code>: usado para cachear el n&#xFA;mero de registros que pertenecen
 a una asociaci&#xF3;n. Por ejemplo, una columna <code>comments_count</code> en la clase <code>Post</code> que tiene muchas instancias de <code>Comment</code>, cachear&#xE1; el n&#xFA;mero de comentarios existentes para cada post.</li>
 </ul>
 </div>
@@ -6495,7 +6496,7 @@ de vida de los modelos.</li>
 <li>Permiten agregar comportamiento a los modelos que es ejecutado de forma transparente 
 cuando estos eventos suceden.</li>
 <li>Pueden agregarse eventos cuando se crea un nuevo registro, al modificarse, al
-eliminarse, etc</li>
+eliminarse, etc.</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets" ref="13-activerecord/01_activerecord/21">
@@ -6505,7 +6506,7 @@ eliminarse, etc</li>
 <li>Las migraciones son una DSL para el manejo de esquemas de bases de datos
 llamados migraciones</li>
 <li>Las migraciones se almacenan en archivos que son ejecutados contra una base de
-datos soportada por Active Recors usando <code>rake</code></li>
+datos soportada por Active Record usando <code>rake</code></li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="13-activerecord/01_activerecord/22">
@@ -6539,7 +6540,7 @@ indica qu&#xE9; cambios se han aplicado</li>
 datos</li>
 <li>Para aplicar las migraciones pendientes: <code>rake db:migrate</code></li>
 <li>Para deshacer un cambio hecho: <code>rake db:rollback</code></li>
-<li>La DSL es agn&#xF3;stico a la base de datos: funciona en Mysql, SQlite, Oracle,
+<li>La DSL es agn&#xF3;stico a la base de datos: funciona en MySQL, SQLite, Oracle,
 Postgres, etc</li>
 </ul>
 </div>
