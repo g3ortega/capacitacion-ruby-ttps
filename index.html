@@ -1614,7 +1614,7 @@ end
 
 <h2>Lo verificamos:</h2>
 
-<pre class="sh_ruby"><code># La formula de verificacion es: n*(n-1)/2
+<pre class="sh_ruby"><code># La formula de verificacion es: n*(n+1)/2
 
 100*101/2</code></pre>
 </div>
@@ -1876,9 +1876,11 @@ RubyConf 2012 Argentina
 <li>&#xDA;ltimas versiones
 
 <ul>
-<li>1.8.7-p374 (No usar!)</li>
-<li>1.9.3-p448</li>
-<li>2.0.0-p247 (Usar!)</li>
+<li>1.8.7-p375 (No usar!)</li>
+<li>1.9.3-p547</li>
+<li>2.0.0-p481</li>
+<li>2.1.2</li>
+<li>2.2.0-dev</li>
 </ul></li>
 </ul>
 </div>
@@ -1897,14 +1899,14 @@ RubyConf 2012 Argentina
 <li>&#xDA;ltimas versiones
 
 <ul>
-<li>jruby-1.7.4</li>
+<li>jruby-1.7.14</li>
 </ul></li>
 <li>Modos
 
 <ul>
-<li>1.8.7</li>
-<li>1.9.3 (default)</li>
-<li>2.0.0 (experimental)</li>
+<li>1.8.x</li>
+<li>1.9.x (default)</li>
+<li>2.0.x</li>
 </ul></li>
 </ul>
 </div>
@@ -3031,9 +3033,9 @@ m&#xE9;todos implementados, uno por vez
 <h1>Testeamos <code>words_from_string</code></h1>
 
 <pre class="sh_ruby"><code>require_relative 'words_from_string.rb'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TestWordsFromString &lt; Test::Unit::TestCase
+class TestWordsFromString &lt; Minitest::Test
     def test_empty_string
         assert_equal([], words_from_string(""))
         assert_equal([], words_from_string(" "))
@@ -3059,9 +3061,9 @@ por el framework de testing</p>
 <h1>Testeamos <code>count_frequency</code></h1>
 
 <pre class="sh_ruby"><code>require_relative 'count_frequency.rb'
-require 'test/unit'
+require 'minitest/autorun'
 
-class TestCountFrequency &lt; Test::Unit::TestCase
+class TestCountFrequency &lt; Minitest::Test
     def test_empty_list
         assert_equal({}, count_frequency([]))
     end
@@ -3105,7 +3107,7 @@ end</code></pre>
 end
 
 # o m&#xE1;s simple:
-top_five.each { |word, count| "#{word}: #{count}" }</code></pre>
+top_five.each { |word, count| puts "#{word}: #{count}" }</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smbullets smaller" ref="05-clases-objetos-variables/02_contenedores-bloques-iteradores/23">
 <h1>Bloques</h1>
@@ -3524,7 +3526,7 @@ leer todos los elementos antes de retornar un valor
 
 <ul>
 <li>Podemos escribir la versi&#xF3;n de <code>select</code> adecuada a nuestra lista
-infinito</li>
+infinita</li>
 </ul></li>
 </ul>
 
