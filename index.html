@@ -4895,16 +4895,16 @@ s['cat', 'dog'] = 'enemies'</code></pre>
 <h1>Expresiones de comando</h1>
 
 <ul>
-<li>Podemos usar comillas <code>o</code>%x` para indicar la ejecuci&#xF3;n de un comando en el
+<li>Podemos usar comillas: <strong>`</strong>  &#xF3; <code>%x</code> para indicar la ejecuci&#xF3;n de un comando en el
 sistema operativo subyacente</li>
 </ul>
 
 <h2>Ejemplo</h2>
 
-<pre class="sh_ruby"><code>date`
-ls`.split[34]
+<pre class="sh_ruby"><code>`date`
+`ls`.split[34]
 %x{echo "Hello there"}
-`ip add ls`.
+`ip address ls`.
     split("\n").
     select {|x| x =~ / inet / }.
     map do |x|
@@ -4944,13 +4944,15 @@ salvo por la precedencia: <code>and</code> es de menor precedencia que <code>&am
 
 <pre class="sh_ruby"><code>nil &amp;&amp; 99    # =&gt; nil
 false &amp;&amp; 99  # =&gt; false
-"cat" &amp;&amp; 99  # =&gt; 99</code></pre>
+"cat" &amp;&amp; 99  # =&gt; 99
+a = (true and false)
+a = true and false # Check a, Why??</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/9">
 <h1>Or</h1>
 
 <ul>
-<li>El operador <code>|| y el m&#xE9;todo</code>or` funcionan similar 
+<li>El operador <code>||</code> y el m&#xE9;todo <code>or</code> funcionan similar 
 
 <ul>
 <li>Retornan el primer valor si es verdadero, sino el segundo. Ambos son iguales 
@@ -4962,14 +4964,16 @@ salvo por la precedencia <code>or</code> es de menor precedencia que <code>||</c
 
 <pre class="sh_ruby"><code>nil || 99    # =&gt; 99
 false || 99  # =&gt; 99
-"cat" || 99  # =&gt; "cat"</code></pre>
+"cat" || 99  # =&gt; "cat"
+b = (false or true)
+b = false or true # Check b, Why??</code></pre>
 
 <ul>
 <li>Es muy com&#xFA;n utilizar la expresi&#xF3;n: <code>||=</code> para setear un valor si no fue
 seteado: <code>var ||= "default value"</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="08-expresiones/01_expresiones/10">
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/10">
 <h1>Break, Redo y Next</h1>
 
 <ul>
@@ -4984,6 +4988,58 @@ siguiente elemento si fuese un iterador</li>
 iteraci&#xF3;n</li>
 </ul></li>
 </ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/11">
+<h1>Ejemplos</h1>
+
+<h2>Break</h2>
+
+<pre class="sh_ruby"><code>a = 0
+while a &lt; 20 do
+    a +=1
+    break if a == 10 
+    p a 
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/12">
+<h1>Ejemplos</h1>
+
+<h2>Redo</h2>
+
+<pre class="sh_ruby"><code>a = 0
+while a &lt; 20 do
+    a +=1
+    redo if a == 10 
+    p a 
+end
+
+# Y ahora?
+a = 0
+while a &lt; 20 do
+    a +=1
+    redo if a == 20 
+    p a 
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="08-expresiones/01_expresiones/13">
+<h1>Ejemplos</h1>
+
+<h2>Next</h2>
+
+<pre class="sh_ruby"><code>a = 0
+while a &lt; 20 do
+    a +=1
+    next if a == 10 
+    p a 
+end
+
+# Y ahora?
+a = 0
+while a &lt; 20 do
+    a +=1
+    next if a == 20 
+    p a 
+end</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content center" ref="09-excepciones/01_excepciones/1">
 <h1>Excepciones, catch y throw</h1>
