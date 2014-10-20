@@ -5329,16 +5329,18 @@ raise ArgumentError, "Name too big", caller</code></pre>
 <li>Generalmente no se incluye la traza en librer&#xED;as</li>
 </ul>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content small smbullets" ref="09-excepciones/01_excepciones/18">
+</div><div class="slide" data-transition="uncover"><div class="content smaller smbullets" ref="09-excepciones/01_excepciones/18">
 <h1><code>catch</code> y <code>throw</code></h1>
 
 <ul>
-<li>Veremos un ejemplo que acalrar&#xE1; el concepto
+<li>Veremos un ejemplo que aclarar&#xE1; el concepto
 
 <ul>
 <li>El siguiente c&#xF3;digo leer&#xE1; palabras que ir&#xE1; agregando en un arreglo que al
 finalizar imprimir&#xE1; en orden inverso. Sin embargo, si alguna l&#xED;nea es
 incorrecta deber&#xE1; salir sin hacer nada</li>
+<li>El secreto es <code>throw(symbol, variable)</code>. <strong>En este ejemplo es importante que
+el &#xFA;ltimo puts retorna <code>nil</code></strong></li>
 </ul></li>
 </ul>
 
@@ -5541,17 +5543,14 @@ archivo</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/11">
-<h1>Test::Unit vs MiniTest::Unit</h1>
+<h1>MiniTest</h1>
 
-<h2>Aparecen tres opciones de uso:</h2>
+<h2>Aparecen dos opciones de uso:</h2>
 
 <ul>
-<li><code>require 'minitest/unit'</code> y usaremos &#xFA;nicamente la funcionalidad de <strong>MiniTest</strong></li>
-<li><code>require 'test/unit'</code>  y usaremos MiniTest con la capa de <em>compatibilidad</em> con
-Test::Unit habilitada, agregando las assertions ausentes y la funcionalidad de
-autorun mencionadas</li>
-<li>Instalar la gema <code>test-unit</code> y disponer de la funcionalidad original de
-<strong>Test::Unit</strong></li>
+<li><code>require 'minitest/unit'</code> similar a Test::Unit</li>
+<li><code>require 'minitest/spec'</code> utiliza el formato de <em>specs</em> introducido por
+<strong><a href="http://rspec.info/">rspec</a></strong></li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/12">
@@ -5590,9 +5589,10 @@ mensaje y contabilizar&#xE1; el fallo</li>
 
 <h2>Reescribimos los tests que hicimos con los dientes</h2>
 
-<pre class="sh_ruby"><code>require 'roman'
-require 'test/unit'
-class TestRoman &lt; MiniTest::Unit::TestCase
+<pre class="sh_ruby"><code>require_relative 'roman'
+require 'minitest/autorun'
+require 'minitest/unit'
+class TestRoman &lt; MiniTest::Test
     def test_simple
       assert_equal("i", Roman.new(1).to_s)
       assert_equal("ix", Roman.new(9).to_s)
@@ -5604,13 +5604,14 @@ end</code></pre>
 </div><div class="slide" data-transition="uncover"><div class="content bullets" ref="10-unit-testing/01_unit-testing/15">
 <h1>Agregamos m&#xE1;s assertions</h1>
 
-<pre class="sh_ruby"><code>require 'roman'
-require 'test/unit'
-class TestRoman &lt; MiniTest::Unit::TestCase
+<pre class="sh_ruby"><code>require_relative 'roman'
+require 'minitest/autorun'
+require 'minitest/unit'
+class TestRoman &lt; MiniTest::Test
     def test_simple
-      assert_equal("i", Roman.new(1).to_s)
+      assert_equal("i",  Roman.new(1).to_s)
       assert_equal("ii", Roman.new(2).to_s)
-      assert_equal("iii", Roman.new(3).to_s)
+      assert_equal("iii",Roman.new(3).to_s)
       assert_equal("iv", Roman.new(4).to_s)
       assert_equal("ix", Roman.new(9).to_s)
     end
@@ -5647,9 +5648,10 @@ end</code></pre>
 
 <h2>Para no repetir los asserts, podemos:</h2>
 
-<pre class="sh_ruby"><code>require 'roman'
-require 'test/unit'
-class TestRoman &lt; Test::Unit::TestCase
+<pre class="sh_ruby"><code>require_relative 'roman'
+require 'minitest/autorun'
+require 'minitest/unit'
+class TestRoman &lt; MiniTest::Test
   NUMBERS = [
              [ 1, "i" ], [ 2, "ii" ], [ 3, "iii" ],
              [ 4, "iv"], [ 5, "v" ], [ 9, "ix" ]
@@ -5671,9 +5673,10 @@ end</code></pre>
 
 <h2>Verificamos si se lanzan las excepciones</h2>
 
-<pre class="sh_ruby"><code>require 'roman'
-require 'test/unit'
-class TestRoman &lt; Test::Unit::TestCase
+<pre class="sh_ruby"><code>require_relative 'roman'
+require 'minitest/autorun'
+require 'minitest/unit'
+class TestRoman &lt; MiniTest::Test
     def test_range
         # no exception for these two...
         Roman.new(1)
@@ -5775,6 +5778,38 @@ salvo  <code>refute_nil</code> que devolver&#xED;a <em>Expected nil to not be ni
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/23">
+<h1>Minitest Spec</h1>
+
+<p>Veamos ahora como ser&#xED;a el mismo &#xFA;ltimo test escrito en este nuevo formato</p>
+
+<pre class="sh_ruby"><code>require_relative 'roman'
+require 'minitest/autorun'
+require 'minitest/spec'
+describe Roman do
+    NUMBERS = [ [ 1, "i" ], [ 2, "ii" ], [ 3, "iii" ],
+        [ 4, "iv"], [ 5, "v" ], [ 9, "ix" ] ]
+    describe 'when arbitrary numbers are converted' do
+        it 'must return expected value' do
+            NUMBERS.each do |arabic, roman|
+                r = Roman.new(arabic)
+                assert_equal(roman, r.to_s)
+            end
+        end
+    end
+
+    describe 'limits' do 
+        it 'should not raise exceptions for these two' do
+            Roman.new(1)
+            Roman.new(4999)
+        end
+        it 'should raise an exception for limits' do
+            assert_raises(RuntimeError) { Roman.new(0) }
+            assert_raises(RuntimeError) { Roman.new(5000) }
+        end
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/24">
 <h1>Estructurando los tests</h1>
 
 <ul>
@@ -5784,7 +5819,7 @@ salvo  <code>refute_nil</code> que devolver&#xED;a <em>Expected nil to not be ni
 <li><strong>De alto nivel</strong>: llamados <em>test cases</em>. Contienen todos los tests para una
 caracter&#xED;stica determinada. En el ejemplo de <code>Roman</code> alcanza con un &#xFA;nico
 test case. Las clases que representan test cases, deben ser subclase de:
-<code>Test::Unit::TestCase</code></li>
+<code>Minitest::Test</code></li>
 <li><strong>De bajo nivel</strong>: que ser&#xED;an los m&#xE9;todos de test en s&#xED;. Los assertions
 podr&#xED;amos escribirlos todos mezclados, pero en su lugar los agrupamos en
 m&#xE9;todos dentro del test case de forma de que los assertions en un m&#xE9;todo se
@@ -5796,14 +5831,21 @@ comenzar con el prefijo <strong>test</strong> para que sean seleccionados como t
 Disponemos entonces de:</p>
 
 <ul>
-<li><code>setup</code></li>
-<li><code>teardown</code></li>
+<li><code>setup</code> en Unit o <code>before</code> en Spec</li>
+<li><code>teardown</code> en Unit o <code>after</code> en Spec</li>
 <li>Ver <code>samples/10/setup-teardown</code></li>
 </ul></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/24">
-<h1>C&#xF3;mo correr los tests</h1>
+</div><div class="slide" data-transition="uncover"><div class="content smaller bullets" ref="10-unit-testing/01_unit-testing/25">
+<h1>Otros agregados</h1>
+
+<ul>
+<li><p>Mocks
+** minitest/mock
+** Mocha: https://github.com/freerange/mocha</p></li>
+<li><p>Coverage con <a href="https://github.com/colszowka/simplecov">simplecov</a></p></li>
+</ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content center" ref="11-gems-bundler/01_gems/1">
 <h1>Gem</h1>
