@@ -6210,10 +6210,11 @@ gem 'sinatra'</code></pre>
 
 <h2>El server</h2>
 
-<pre class="sh_ruby"><code>require 'sinatra'
+<pre class="sh_ruby"><code>require 'bundler'
+Bundler.require
 
 get '/' do
-  'hello world'
+    'hello world'
 end</code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content commandline small" ref="12-sinatra/02_sinatra/4">
@@ -6262,12 +6263,20 @@ Server: WEBrick/1.3.1 (Ruby/2.1.2/2014-05-08)
 devuelva un c&#xF3;digo de estado <code>200</code> (OK) y que el body sea <code>'hello world'</code></li>
 </ul>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/6">
-<h1>Y c&#xF3;mo lo testeamos?</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="12-sinatra/02_sinatra/6">
+<h1>Testeando</h1>
 
-<pre class="sh_ruby"><code>require 'minitest/autorun'
-require 'rack/test'
-require_relative 'server'
+<h2>Como usamos bundler, editamos el <code>Gemfile</code></h2>
+
+<pre class="sh_ruby"><code>source 'https://rubygems.org'
+gem 'sinatra'
+gem "minitest"
+gem "rack-test" </code></pre>
+
+<h2>C&#xF3;mo lo testeamos?</h2>
+
+<pre class="sh_ruby"><code>require_relative 'server'
+require 'minitest/autorun'
 
 class HelloWorldTest &lt; MiniTest::Test
     include Rack::Test::Methods
@@ -6287,10 +6296,9 @@ end</code></pre>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/7">
 <h1>Y si queremos usar mintest/spec</h1>
 
-<pre class="sh_ruby"><code>require 'minitest/autorun'
+<pre class="sh_ruby"><code>require_relative 'server'
+require 'minitest/autorun'
 require 'minitest/spec'
-require 'rack/test'
-require_relative 'server'
 
 include Rack::Test::Methods
 
@@ -6329,40 +6337,43 @@ par&#xE1;mtros del bloque</li>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/9">
 <h1>Ejemplos de rutas: verbos</h1>
 
-<pre class="sh_ruby"><code>get '/' do
-    .. show something ..
+<pre class="sh_ruby"><code>require 'bundler'
+Bundler.require
+
+get '/' do
+  'This is GET'
 end
 
 post '/' do
-    .. create something ..
+  'This is POST'
 end
 
 put '/' do
-    .. replace something ..
+  'This is PUT'
 end
 
 patch '/' do
-    .. modify something ..
+  'This is PATCH'
 end
 
 delete '/' do
-    .. annihilate something ..
+  'This is DELETE'
 end</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="12-sinatra/02_sinatra/10">
-<h1>Ejemplos de rutas: verbos</h1>
+</div><div class="slide" data-transition="uncover"><div class="content commandline incremental" ref="12-sinatra/02_sinatra/10">
+<h1>Lo probamos</h1>
 
-<pre class="sh_ruby"><code>options '/' do
-    .. appease something ..
-end
-
-link '/' do
-    .. affiliate something ..
-end
-
-unlink '/' do
-    .. separate something ..
-end</code></pre>
+<pre><code><code class="command">$ curl -X GET http://localhost:4567/</code>
+<code class="result">This is GET
+</code><code class="command">$ curl -d '' -X PUT http://localhost:4567/ </code>
+<code class="result">This is PUT
+</code><code class="command">$ curl -d '' -X POST http://localhost:4567/ </code>
+<code class="result">This is POST
+</code><code class="command">$ curl -d '' -X DELETE http://localhost:4567/ </code>
+<code class="result">This is DELETE
+</code><code class="command">$ curl -d '' -X PATCH http://localhost:4567/ </code>
+<code class="result">This is PATCH
+</code></code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/11">
 <h1>Ejemplos de rutas: patrones con par&#xE1;metros</h1>
@@ -6447,7 +6458,7 @@ end</code></pre>
 
 <h2>C&#xF3;mo probar?</h2>
 
-<p><code>curl -i -v http://localhost:4567 -A 'Songbird 1.1'</code></p>
+<p><code>curl http://localhost:4567/foo -A 'Songbird 1.1'</code></p>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="12-sinatra/02_sinatra/17">
 <h1>Ejemplo de condiciones con host_name y provides</h1>
@@ -6466,7 +6477,7 @@ end</code></pre>
 
 <h2>C&#xF3;mo probar?</h2>
 
-<p><code>curl -i -v http://localhost:4567 -H "Accept: application/xml"</code></p>
+<p><code>curl http://localhost:4567 -H "Accept: application/xml"</code></p>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/18">
 <h1>Ejemplo de condiciones propias</h1>
@@ -6511,7 +6522,6 @@ end</code></pre>
 respuesta que se le pasa al cliente HTTP o al siguiente middleware en la pila
 de Rack.</li>
 <li>Lo m&#xE1;s com&#xFA;n es que sea un string, como en los ejemplos anteriores.</li>
-<li>Sin embargo, otros valores tambi&#xE9;n son aceptados (no lo veremos ahora)</li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/21">
@@ -6544,8 +6554,46 @@ end</code></pre>
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/23">
-<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+</div><div class="slide" data-transition="uncover"><div class="content smbullets small" ref="12-sinatra/02_sinatra/23">
+<h1>Templates</h1>
+
+<h2>Los templates aceptan las siguientes opciones:</h2>
+
+<ul>
+<li><strong>locals</strong>: lista de variables pasadas al template</li>
+<li><strong>default_encoding</strong>: codificaci&#xF3;n de caracteres. Por defecto se usa 
+<code>settings.default_encoding</code></li>
+<li><strong>views</strong>: directorio de donde cargar los templates. Por defecto <code>settings.views</code></li>
+<li><strong>layout</strong>: utilizar o no layout (true/false). Si es un s&#xED;mbolo, especifica
+que templeta usar</li>
+<li><strong>Content-Type</strong>: tipo de contenido producido por el template. </li>
+<li><strong>scope</strong>: alcance en el cual renderiza el template. Por defecto es la
+aplicaci&#xF3;n. Si se cambia, las variables de instancia y helpers no estar&#xE1;n
+disponibles.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/24">
+<h1>Templates: cambiando el directorio de las vistas</h1>
+
+<pre class="sh_ruby"><code>set :views, settings.root + '/templates'</code></pre>
+
+<ul>
+<li>Es importante recordar que los templates deben referenciarse siempre con
+s&#xED;mbolos, aun si se encuentran en un subdirectorio (en este caso usar:
+<code>:subdir/template</code> o <code>'subdir/template'.to_sym</code>). Debe siempre usarse un s&#xED;mbolo
+sino se toma el string y renderiza directamente.</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets" ref="12-sinatra/02_sinatra/25">
+<h1>Layout</h1>
+
+<ul>
+<li>El layout es un template contenedor que enmarca lo que cada acci&#xF3;n renderiza.</li>
+<li>Para embeber utilizaremos <code>yield</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/26">
+<h1>Filtros: before y after</h1>
 
 <ul>
 <li><strong>Filtros</strong>: Los filtros <code>before</code> son evaluados antes de cada petici&#xF3;n
@@ -6564,8 +6612,38 @@ get '/' do
   @nota #=&gt; 'Hey!'
 end</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/24">
-<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets smaller" ref="12-sinatra/02_sinatra/27">
+<h1>Filtros: before y after</h1>
+
+<ul>
+<li>El filtro <code>after</code> ejecuta luego de atender la petici&#xF3;n</li>
+<li>Los filtros pueden contener una ruta para machear cu&#xE1;ndo aplican
+
+<ul>
+<li>Adem&#xE1;s es posible usar condiciones como en las rutas</li>
+</ul></li>
+</ul>
+
+<h2>Ejemplos</h2>
+
+<pre class="sh_ruby"><code>before '/protected/*' do
+    authenticate!
+end
+
+after '/create/:slug' do |slug|
+    session[:last_slug] = slug
+end
+
+before :agent =&gt; /Songbird/ do
+    # ...
+end
+
+after '/blog/*', :host_name =&gt; 'example.com' do
+    # ...
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/28">
+<h1>Helpers</h1>
 
 <ul>
 <li><strong>Helpers</strong>: Son m&#xE9;todos que pueden ser usados en los bloques de rutas y los
@@ -6584,8 +6662,8 @@ get '/:name' do
   "#{bar params[:name]}"
 end</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/25">
-<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/29">
+<h1>Sesiones</h1>
 
 <ul>
 <li><strong>Sessions</strong>: Una sesi&#xF3;n es usada para mantener el estado a trav&#xE9;s de
@@ -6605,8 +6683,8 @@ get '/:value' do
   session[:value] = params[:value]
 end</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/26">
-<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/30">
+<h1>Redirecciones</h1>
 
 <ul>
 <li><strong>Redirecciones del navegador</strong>: Pod&#xE9;s redireccionar al navegador con el
@@ -6623,8 +6701,8 @@ get '/bar' do
   'Hello!'
 end</code></pre>
 </div>
-</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/27">
-<h1>Sinatra: caracter&#xED;sticas (continuaci&#xF3;n)</h1>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/31">
+<h1>Manejo de errores</h1>
 
 <ul>
 <li><strong>Manejo de errores</strong>: Los manejadores de errores se ejecutan dentro del
@@ -6639,9 +6717,137 @@ usar, por ejemplo, haml, erb, halt, etc.</li>
 end
 
 error do
-  'Disculp&#xE1;, ocurri&#xF3; un error horrible - ' +
-    env['sinatra.error'].name
+  # env['sinatra.error'] contains error
+  'Disculp&#xE1;, ocurri&#xF3; un error horrible' 
 end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/32">
+<h1>Configuraci&#xF3;n</h1>
+
+<ul>
+<li>Es posible correr, por &#xFA;nica vez, c&#xF3;digo de incializaci&#xF3;n</li>
+<li>Es posible hacerlo dependieno del <strong>ambiente</strong> indicado con la variable de
+entorno <code>RACK_ENV</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/33">
+<h1>Configuraci&#xF3;n: Ejemplos</h1>
+
+<pre class="sh_ruby"><code>configure do
+    # setting one option
+    set :option, 'value'
+
+    # setting multiple options
+    set :a =&gt; 1, :b =&gt; 2
+
+    # same as `set :option, true`
+    enable :option
+
+    # same as `set :option, false`
+    disable :option
+
+    # you can also have dynamic settings with blocks
+    set(:css_dir) { File.join(views, 'css') }
+end
+
+configure :production do
+    # S&#xF3;lo aplica al ambiente :production
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/34">
+<h1>Configuraci&#xF3;n: accediendo a los valores</h1>
+
+<ul>
+<li>Lo valores seteados con <code>set</code> pueden accederse con <code>settings</code></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>configure do
+    set :foo, 'bar'
+end
+
+get '/' do
+    settings.foo? # =&gt; true
+    settings.foo  # =&gt; 'bar'
+    ...
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/35">
+<h1>Ambientes</h1>
+
+<ul>
+<li>Se utilizan 3 ambientes predefinidos: 
+
+<ul>
+<li><strong>production</strong></li>
+<li><strong>test</strong></li>
+<li><strong>development</strong></li>
+</ul></li>
+<li>Los ambientes se setean mediante la variable del entorno <code>RACK_ENV</code></li>
+<li>El ambiente por defecto es <strong>development</strong>
+
+<ul>
+<li>En este ambiente, los templates se recargan en cada requerimiento</li>
+<li>Los manejadores de <code>not_found</code> y <code>error</code> son especiales dado que muestran el
+stacktrace</li>
+</ul></li>
+<li>En los ambientes <strong>production</strong> y <strong>test</strong> los templates se cachean  por
+defecto</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/36">
+<h1>Ejemplo de ambientes</h1>
+
+<ul>
+<li>La aplicaci&#xF3;n se inicia seteando la variable <code>RACK_ENV</code> de la siguiente forma:
+
+<ul>
+<li><code>RACK_ENV=production ruby my_app.rb</code></li>
+</ul></li>
+</ul>
+
+<h2>Ejemplo</h2>
+
+<pre class="sh_ruby"><code>get '/' do
+    if settings.development?
+        "development!"
+    else
+        "not development!"
+    end
+end</code></pre>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/37">
+<h1>Rack y Sinatra</h1>
+
+<ul>
+<li>Sinatra se apoya en <a href="https://github.com/rack/rack">rack</a>, una interface con el webserver modular</li>
+<li>La capacidad m&#xE1;s importante de rack es la de soportar <strong>middlewares</strong> 
+
+<ul>
+<li>Esto es, componentes que operan entre la aplicaci&#xF3;n y el web server
+monitoreando o manipulando los reqs/resp HTTP proveyendo as&#xED; de varios tipos
+de funcionalidades comunes</li>
+</ul></li>
+<li>En sinatra, es simple utilizar los middlewares Rack con el m&#xE9;todo <code>use</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="uncover"><div class="content bullets small" ref="12-sinatra/02_sinatra/38">
+<h1>Ejemplo de uso de middleware rack</h1>
+
+<pre class="sh_ruby"><code># Agregando al Gemfile gem 'rack-contrib'
+require 'bundler'
+Bundler.require
+
+use Rack::Deflater
+
+get '/hello' do
+    'Hello World'
+end</code></pre>
+
+<ul>
+<li>Ahora las respuestas se comprimen con <strong>gzip</strong></li>
+</ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content bullets" ref="12-sinatra/03_referencias/1">
 <h1>Referencias</h1>
