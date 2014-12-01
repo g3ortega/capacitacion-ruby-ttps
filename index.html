@@ -7364,16 +7364,17 @@ Sheet</a></li>
 <li><a href="http://rubyweekly.com/">Ruby Weekly</a></li>
 <li><a href="http://www.rubyflow.com/">Ruby Flow</a></li>
 <li><a href="http://ruby5.envylabs.com/">Ruby5</a></li>
+<li><a href="http://thechangelog.com/tagged/rubyonrails/">The Changelog</a></li>
 </ul>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content commandline incremental" ref="14-rails/00-introduccion/7">
 <h1>Instalando</h1>
 
 <pre><code><code class="command">$ gem install rails</code>
-<code class="result">Successfully installed rails-4.0.1
+<code class="result">Successfully installed rails-x.y.z
 
 </code><code class="command">$ rails -v</code>
-<code class="result">Rails 4.0.1
+<code class="result">Rails x.y.z
 </code></code></pre>
 </div>
 </div><div class="slide" data-transition="uncover"><div class="content commandline smaller" ref="14-rails/00-introduccion/8">
@@ -7583,6 +7584,7 @@ por <em>sprockets</em></li>
 <ul>
 <li><a href="https://github.com/rails/rails/tree/master/actionmailer">actionmailer</a> - framework para env&#xED;o de email y testing</li>
 <li><a href="https://github.com/rails/rails/tree/master/actionpack">actionpack</a> - framework para el ruteo y respuestas a requerimientos WEB. <em>Es el VC de MVC</em></li>
+<li><a href="https://github.com/rails/rails/tree/master/actionview">actionview</a> - framework para el manejo de templates y renderizado. <em>Es el V de MVC</em></li>
 <li><a href="https://github.com/rails/rails/tree/master/activerecord">activerecord</a> - framework para la conexi&#xF3;n a bases de datos. <em>Es el M de MVC</em></li>
 <li><a href="https://github.com/rails/activeresource">activeresource</a> - framework para la abstracci&#xF3;n de servicios REST. <em>Es el M' de MVC</em></li>
 <li><a href="https://github.com/rails/rails/tree/master/activesupport">activesupport</a> - extensiones a Ruby y clases que proveen mayor funcionalidad</li>
@@ -8060,7 +8062,7 @@ algunos datos que se extraen de variables ruby o estructuras de control como
 loops que permitir&#xE1;n crear tablas.
 
 <ul>
-<li>Siguiendo el principio de SoC, es considerada una buena pr&#xE1;ctica limitar el
+<li>Siguiendo el principio de Separation of Concerns, es considerada una buena pr&#xE1;ctica limitar el
 uso de c&#xF3;digo ruby en las vistas a s&#xF3;lo utilizarlo para imprimir valores de
 variables.</li>
 <li>Cualquier otra cosa ser&#xE1; responsabilidad del modelo</li>
@@ -8119,7 +8121,7 @@ ellos.</li>
 <li><code>class Visitor &lt; ActiveRecord::Base</code> - los nombres de las clases de modelo
 son en singular y en may&#xFA;scula</li>
 <li><code>class VisitorsController &lt; ApplicationController</code> - los nombres de
-controladores son la combinaci&#xF3;n de un nombre de modelo en singular con
+controladores son la combinaci&#xF3;n de un nombre de modelo en plural con
 <em>Controller</em> en camel case</li>
 </ul></li>
 <li>Los archivos:
@@ -8153,7 +8155,7 @@ end</code></pre>
 <li>Esto se debe al nombre de la aplicaci&#xF3;n que creamos con el comando <code>rails
 new learn_rails</code></li>
 </ul></li>
-<li>Los detalles de la sintaxis en el arcchivo <code>config/routes.rb</code> pueden
+<li>Los detalles de la sintaxis en el archivo <code>config/routes.rb</code> pueden
 entenderse bien leyendo <a href="http://guides.rubyonrails.org/routing.html">Rails Guide: Routing from outside in</a></li>
 <li>Modificando <code>config/routes.rb</code> no requiere reiniciar la aplicaci&#xF3;n</li>
 </ul>
@@ -8211,11 +8213,11 @@ y conoce como conectarse con la base de datos</li>
 
 <pre class="sh_ruby"><code>class Owner
     def name
-        name = 'Foobar Kadigan'
+        'Foobar Kadigan'
     end
 
     def birthdate
-        birthdate = Date.new(1990, 12, 22)
+        Date.new(1990, 12, 22)
     end
 
     def countdown
@@ -8378,7 +8380,7 @@ de las partes como hemos hecho hasta aqu&#xED;</li>
 <h1>Rails console</h1>
 
 <ul>
-<li>IRB solamente eval&#xFA;a expresiones que so definidas por la API de ruby</li>
+<li>IRB solamente eval&#xFA;a expresiones que son definidas por la API de ruby</li>
 <li>IRB no conoce las clases de rails</li>
 <li>Rails console carga toda la aplicaci&#xF3;n rails en una consola IRB</li>
 </ul>
@@ -8386,7 +8388,7 @@ de las partes como hemos hecho hasta aqu&#xED;</li>
 <h2>Ejemplo</h2>
 
 <pre class="sh_bash"><code>$ bundle exec rails console
-Loading development environment (Rails 4.0.1)
+Loading development environment (Rails X.Y.Z)
 irb(main):001:0&gt; </code></pre>
 
 <p><em>Notamos que se carg&#xF3; el ambiente de development</em></p>
