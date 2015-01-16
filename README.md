@@ -1,13 +1,11 @@
-# TTPS Opción Ruby: Facultad de Informática - UNLP 
+# Capacitación de Ruby - ISIC
 
-Material teórico de la materia TTPS Opción Ruby dictada en [Facultad de Informática -
-UNLP](http://www.info.unlp.edu.ar)
+### Basado en TTPS Opción Ruby: Facultad de Informática - UNLP 
+
+Material teórico
 
 El material fue desarrollado empleando [showoff](https://github.com/schacon/showoff)
 
-# Para acceder al material en línea
-
-Ingrese en http://TTPS-ruby.github.io/capacitacion-ruby-ttps
 
 # Para iniciar la presentación en forma local:
 
@@ -20,6 +18,6 @@ Ingrese en http://TTPS-ruby.github.io/capacitacion-ruby-ttps
 ```
 * Finalmente iniciar la presentación:
 ```
-  SHOWOFF_EVAL_RUBY=1 bundle exec showoff serve
+  bundle exec showoff serve
 ```
 
