@@ -2,4 +2,4 @@
 source "https://rubygems.org"
 
 # gem "rails"
-gem 'showoff', github: 'schacon/showoff'
+gem 'showoff', '~> 0.9.10.7'
